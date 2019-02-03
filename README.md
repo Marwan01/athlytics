@@ -4,3 +4,7 @@ Web app that will allow coaches to share workouts with their athletes and the at
 Paper mock for coach view:
 
 ![alt text](coachview.jpeg)
+
+Paper mock for athlete view:
+
+![alt text](athleteview.jpeg)
