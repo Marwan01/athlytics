@@ -3,7 +3,7 @@ Web app that will allow coaches to share workouts with their athletes and the at
 
 Database design attempt 1: 
 
-![alt text](feb20meeting.HEIC)
+![alt text](feb20meeting.jpg)
 
 Paper mock for coach view:
 
