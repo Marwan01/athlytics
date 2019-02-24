@@ -10,12 +10,12 @@ class Navigation extends Component {
       <nav className="site-nav family-sans navbar navbar-expand bg-primary navbar-dark higher">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand">
-            <FaUsers className="mr-1" /> Meeting Log
+            <FaUsers className="mr-1" /> Athlytics
           </Link>
           <div className="navbar-nav ml-auto">
             {user && (
               <Link className="nav-item nav-link" to="/meetings">
-                meetings
+                workouts
               </Link>
             )}
             {!user && (

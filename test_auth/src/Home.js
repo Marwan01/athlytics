@@ -30,7 +30,9 @@ class Home extends Component {
               way to learn <a href="https://reactjs.org/">React</a>{' '}
               with <a href="https://firebase.google.com">Firebase</a>.
             </p>
-
+            {user && (
+              <div>{{user}}</div>
+            )}
             {user == null && (
               <span>
                 <Link
