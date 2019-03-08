@@ -1,0 +1,77 @@
+{
+  "functions": {
+    "source": ".",
+    "ignore": [
+      ".circleci",
+      ".DS_Store",
+      ".firebase",
+      ".git",
+      ".vscode",
+      "build/public/**",
+      "coverage",
+      "migrations",
+      "node_modules",
+      "public",
+      "scripts",
+      "seeds",
+      "src",
+      ".babelrc",
+      ".editorconfig",
+      ".env.local",
+      ".env.*.local",
+      ".eslintrc",
+      ".firebaserc",
+      ".flowconfig",
+      ".gitattributes",
+      ".gitignore",
+      ".prettierignore",
+      ".prettierrc",
+      "knexfile.js",
+      "LICENSE.txt",
+      "README.md",
+      "schema.graphql",
+      "storage.rules",
+      "yarn-debug.log*",
+      "yarn-error.log*"
+    ]
+  },
+  "hosting": {
+    "public": "build/public",
+    "rewrites": [
+      {
+        "source": "/login",
+        "function": "default"
+      },
+      {
+        "source": "/login/**",
+        "function": "login"
+      },
+      {
+        "source": "/graphql",
+        "function": "graphql"
+      },
+      {
+        "source": "/graphql/**",
+        "function": "graphql"
+      },
+      {
+        "source": "**",
+        "function": "default"
+      }
+    ],
+    "headers": [
+      {
+        "source": "service-worker.js",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-cache, no-store, must-revalidate"
+          }
+        ]
+      }
+    ]
+  },
+  "storage": {
+    "rules": "storage.rules"
+  }
+}
