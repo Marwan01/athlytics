@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import { compose } from 'recompose';
 
-import { withAuthorization, withEmailVerification } from '../Session';
+import {
+  AuthUserContext,
+  withAuthorization,
+  withEmailVerification,
+} from '../Session';
 import { withFirebase } from '../Firebase';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
+
+import {
+  Grid,
+  Card,
+  Header,
+  Message,
+  Form,
+  Button,
+} from 'semantic-ui-react';
 
 const SIGN_IN_METHODS = [
   {
@@ -26,13 +38,37 @@ const SIGN_IN_METHODS = [
   },
 ];
 
-const AccountPage = ({ authUser }) => (
-  <div>
-    <h1>Account: {authUser.email}</h1>
-    <PasswordForgetForm />
-    <PasswordChangeForm />
-    <LoginManagement authUser={authUser} />
-  </div>
+const AccountPage = () => (
+  <AuthUserContext.Consumer>
+    {authUser => (
+      <div>
+        <Header as="h2">Account: {authUser.email}</Header>
+        <Grid columns={2}>
+          <Grid.Column>
+            <Card fluid={true}>
+              <Card.Content>
+                <Card.Header>Reset Password</Card.Header>
+                <Card.Description>
+                  <PasswordForgetForm />
+                </Card.Description>
+              </Card.Content>
+            </Card>
+          </Grid.Column>
+          <Grid.Column>
+            <Card fluid={true}>
+              <Card.Content>
+                <Card.Header>New Password</Card.Header>
+                <Card.Description>
+                  <PasswordChangeForm />
+                </Card.Description>
+              </Card.Content>
+            </Card>
+          </Grid.Column>
+        </Grid>
+        <LoginManagement authUser={authUser} />
+      </div>
+    )}
+  </AuthUserContext.Consumer>
 );
 
 class LoginManagementBase extends Component {
@@ -88,40 +124,53 @@ class LoginManagementBase extends Component {
     const { activeSignInMethods, error } = this.state;
 
     return (
-      <div>
-        Sign In Methods:
-        <ul>
-          {SIGN_IN_METHODS.map(signInMethod => {
-            const onlyOneLeft = activeSignInMethods.length === 1;
-            const isEnabled = activeSignInMethods.includes(
-              signInMethod.id,
-            );
+      <Card fluid={true}>
+        <Card.Content>
+          <Card.Header>Sign In Methods</Card.Header>
+          <Card.Description>
+            {error && (
+              <Message negative>
+                <p>{error.message}</p>
+              </Message>
+            )}
+            <div>
+              {SIGN_IN_METHODS.map(signInMethod => {
+                const onlyOneLeft = activeSignInMethods.length === 1;
+                const isEnabled = activeSignInMethods.includes(
+                  signInMethod.id,
+                );
 
-            return (
-              <li key={signInMethod.id}>
-                {signInMethod.id === 'password' ? (
-                  <DefaultLoginToggle
-                    onlyOneLeft={onlyOneLeft}
-                    isEnabled={isEnabled}
-                    signInMethod={signInMethod}
-                    onLink={this.onDefaultLoginLink}
-                    onUnlink={this.onUnlink}
-                  />
-                ) : (
-                  <SocialLoginToggle
-                    onlyOneLeft={onlyOneLeft}
-                    isEnabled={isEnabled}
-                    signInMethod={signInMethod}
-                    onLink={this.onSocialLoginLink}
-                    onUnlink={this.onUnlink}
-                  />
-                )}
-              </li>
-            );
-          })}
-        </ul>
-        {error && error.message}
-      </div>
+                return (
+                  <span key={signInMethod.id}>
+                    {signInMethod.id === 'password' ? (
+                      <Grid columns={1}>
+                        <Grid.Column>
+                          <DefaultLoginToggle
+                            onlyOneLeft={onlyOneLeft}
+                            isEnabled={isEnabled}
+                            signInMethod={signInMethod}
+                            onLink={this.onDefaultLoginLink}
+                            onUnlink={this.onUnlink}
+                          />
+                          <br />
+                        </Grid.Column>
+                      </Grid>
+                    ) : (
+                      <SocialLoginToggle
+                        onlyOneLeft={onlyOneLeft}
+                        isEnabled={isEnabled}
+                        signInMethod={signInMethod}
+                        onLink={this.onSocialLoginLink}
+                        onUnlink={this.onUnlink}
+                      />
+                    )}
+                  </span>
+                );
+              })}
+            </div>
+          </Card.Description>
+        </Card.Content>
+      </Card>
     );
   }
 }
@@ -134,20 +183,38 @@ const SocialLoginToggle = ({
   onUnlink,
 }) =>
   isEnabled ? (
-    <button
+    <Button
+      color={
+        signInMethod.id === 'google.com'
+          ? 'google plus'
+          : signInMethod.id === 'facebook.com'
+          ? 'facebook'
+          : signInMethod.id === 'twitter.com'
+          ? 'twitter'
+          : ''
+      }
       type="button"
       onClick={() => onUnlink(signInMethod.id)}
       disabled={onlyOneLeft}
     >
       Deactivate {signInMethod.id}
-    </button>
+    </Button>
   ) : (
-    <button
+    <Button
+      color={
+        signInMethod.id === 'google.com'
+          ? 'google plus'
+          : signInMethod.id === 'facebook.com'
+          ? 'facebook'
+          : signInMethod.id === 'twitter.com'
+          ? 'twitter'
+          : ''
+      }
       type="button"
       onClick={() => onLink(signInMethod.provider)}
     >
       Link {signInMethod.id}
-    </button>
+    </Button>
   );
 
 class DefaultLoginToggle extends Component {
@@ -182,48 +249,53 @@ class DefaultLoginToggle extends Component {
       passwordOne !== passwordTwo || passwordOne === '';
 
     return isEnabled ? (
-      <button
-        type="button"
-        onClick={() => onUnlink(signInMethod.id)}
-        disabled={onlyOneLeft}
-      >
-        Deactivate {signInMethod.id}
-      </button>
+      <span>
+        <Button
+          type="button"
+          onClick={() => onUnlink(signInMethod.id)}
+          disabled={onlyOneLeft}
+        >
+          Deactivate {signInMethod.id}
+        </Button>
+        <br />
+      </span>
     ) : (
-      <form onSubmit={this.onSubmit}>
-        <input
-          name="passwordOne"
-          value={passwordOne}
-          onChange={this.onChange}
-          type="password"
-          placeholder="New Password"
-        />
-        <input
-          name="passwordTwo"
-          value={passwordTwo}
-          onChange={this.onChange}
-          type="password"
-          placeholder="Confirm New Password"
-        />
-
-        <button disabled={isInvalid} type="submit">
+      <Form onSubmit={this.onSubmit}>
+        <Form.Group widths="equal">
+          <Form.Field>
+            <label>New Password</label>
+            <input
+              name="passwordOne"
+              value={passwordOne}
+              onChange={this.onChange}
+              type="password"
+              placeholder="New Password"
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Confirm Password</label>
+            <input
+              name="passwordTwo"
+              value={passwordTwo}
+              onChange={this.onChange}
+              type="password"
+              placeholder="Confirm New Password"
+            />
+          </Form.Field>
+        </Form.Group>
+        <Button primary disabled={isInvalid} type="submit">
           Link {signInMethod.id}
-        </button>
-      </form>
+        </Button>
+      </Form>
     );
   }
 }
 
 const LoginManagement = withFirebase(LoginManagementBase);
 
-const mapStateToProps = state => ({
-  authUser: state.sessionState.authUser,
-});
-
 const condition = authUser => !!authUser;
 
 export default compose(
-  connect(mapStateToProps),
   withEmailVerification,
   withAuthorization(condition),
 )(AccountPage);

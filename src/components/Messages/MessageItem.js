@@ -1,4 +1,11 @@
 import React, { Component } from 'react';
+import { distanceInWordsToNow } from 'date-fns';
+import { Link } from 'react-router-dom';
+import { Feed, Icon, Form, Button } from 'semantic-ui-react';
+
+export const TimeAgo = ({ time }) => (
+  <time>{distanceInWordsToNow(time)} ago</time>
+);
 
 class MessageItem extends Component {
   constructor(props) {
@@ -32,40 +39,60 @@ class MessageItem extends Component {
     const { editMode, editText } = this.state;
 
     return (
-      <li>
-        {editMode ? (
-          <input
-            type="text"
-            value={editText}
-            onChange={this.onChangeEditText}
-          />
-        ) : (
-          <span>
-            <strong>
+      <Feed.Event>
+        <Feed.Content>
+          <Feed.Summary>
+            <Feed.User as={Link} to={`/`}>
               {message.user.username || message.user.userId}
-            </strong>{' '}
-            {message.text} {message.editedAt && <span>(Edited)</span>}
-          </span>
-        )}
-
-        {editMode ? (
-          <span>
-            <button onClick={this.onSaveEditText}>Save</button>
-            <button onClick={this.onToggleEditMode}>Reset</button>
-          </span>
-        ) : (
-          <button onClick={this.onToggleEditMode}>Edit</button>
-        )}
-
-        {!editMode && (
-          <button
-            type="button"
-            onClick={() => onRemoveMessage(message.uid)}
-          >
-            Delete
-          </button>
-        )}
-      </li>
+            </Feed.User>
+            <Feed.Date>
+              <TimeAgo time={message.createdAt} />
+            </Feed.Date>
+          </Feed.Summary>
+          <Feed.Extra>
+            {editMode ? (
+              <Form>
+                <Form.Field>
+                  <input
+                    type="text"
+                    value={editText}
+                    onChange={this.onChangeEditText}
+                  />
+                </Form.Field>
+              </Form>
+            ) : (
+              <span>
+                {message.text}{' '}
+                {message.editedAt && <span>(Edited)</span>}
+              </span>
+            )}
+          </Feed.Extra>
+          <Feed.Meta>
+            {editMode ? (
+              <span>
+                <Button icon onClick={this.onSaveEditText}>
+                  <Icon color="green" name="save outline" />
+                </Button>
+                <Button icon onClick={this.onToggleEditMode}>
+                  <Icon color="blue" name="undo alternate" />
+                </Button>
+              </span>
+            ) : (
+              <span>
+                <Button icon onClick={this.onToggleEditMode}>
+                  <Icon color="blue" name="edit outline" />
+                </Button>
+                <Button
+                  icon
+                  onClick={() => onRemoveMessage(message.uid)}
+                >
+                  <Icon color="red" name="trash alternate" />
+                </Button>
+              </span>
+            )}
+          </Feed.Meta>
+        </Feed.Content>
+      </Feed.Event>
     );
   }
 }

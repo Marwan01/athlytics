@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
 
 import { withFirebase } from '../Firebase';
+import { Card, Loader, Button } from 'semantic-ui-react';
 
 class UserItem extends Component {
   constructor(props) {
@@ -10,23 +9,25 @@ class UserItem extends Component {
 
     this.state = {
       loading: false,
+      user: null,
+      ...props.location.state,
     };
   }
 
   componentDidMount() {
-    if (!this.props.user) {
-      this.setState({ loading: true });
+    if (this.state.user) {
+      return;
     }
+
+    this.setState({ loading: true });
 
     this.props.firebase
       .user(this.props.match.params.id)
       .on('value', snapshot => {
-        this.props.onSetUser(
-          snapshot.val(),
-          this.props.match.params.id,
-        );
-
-        this.setState({ loading: false });
+        this.setState({
+          user: snapshot.val(),
+          loading: false,
+        });
       });
   }
 
@@ -35,56 +36,44 @@ class UserItem extends Component {
   }
 
   onSendPasswordResetEmail = () => {
-    this.props.firebase.doPasswordReset(this.props.user.email);
+    this.props.firebase.doPasswordReset(this.state.user.email);
   };
 
   render() {
-    const { user } = this.props;
-    const { loading } = this.state;
+    const { user, loading } = this.state;
 
     return (
-      <div>
-        <h2>User ({this.props.match.params.id})</h2>
-        {loading && <div>Loading ...</div>}
-
-        {user && (
-          <div>
-            <span>
-              <strong>ID:</strong> {user.uid}
-            </span>
-            <span>
-              <strong>E-Mail:</strong> {user.email}
-            </span>
-            <span>
-              <strong>Username:</strong> {user.username}
-            </span>
-            <span>
-              <button
-                type="button"
-                onClick={this.onSendPasswordResetEmail}
-              >
-                Send Password Reset
-              </button>
-            </span>
-          </div>
+      <Card fluid={true}>
+        {loading ? (
+          <Loader active inline="centered" />
+        ) : (
+          <Card.Content>
+            <Card.Header>User: {user.uid}</Card.Header>
+            <Card.Description>
+              {user && (
+                <div>
+                  <Card.Content>
+                    <Card.Meta>
+                      <span>Username: {user.username}</span>
+                    </Card.Meta>
+                    <Card.Description>{user.email}</Card.Description>
+                    <br />
+                    <Button
+                      primary
+                      type="button"
+                      onClick={this.onSendPasswordResetEmail}
+                    >
+                      Send Password Reset
+                    </Button>
+                  </Card.Content>
+                </div>
+              )}
+            </Card.Description>
+          </Card.Content>
         )}
-      </div>
+      </Card>
     );
   }
 }
 
-const mapStateToProps = (state, props) => ({
-  user: (state.userState.users || {})[props.match.params.id],
-});
-
-const mapDispatchToProps = dispatch => ({
-  onSetUser: (user, uid) => dispatch({ type: 'USER_SET', user, uid }),
-});
-
-export default compose(
-  withFirebase,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-)(UserItem);
+export default withFirebase(UserItem);

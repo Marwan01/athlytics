@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
+
+import { Header, Loader, Table, Button } from 'semantic-ui-react';
 
 class UserList extends Component {
   constructor(props) {
@@ -12,18 +12,25 @@ class UserList extends Component {
 
     this.state = {
       loading: false,
+      users: [],
     };
   }
 
   componentDidMount() {
-    if (!this.props.users.length) {
-      this.setState({ loading: true });
-    }
+    this.setState({ loading: true });
 
     this.props.firebase.users().on('value', snapshot => {
-      this.props.onSetUsers(snapshot.val());
+      const usersObject = snapshot.val();
 
-      this.setState({ loading: false });
+      const usersList = Object.keys(usersObject).map(key => ({
+        ...usersObject[key],
+        uid: key,
+      }));
+
+      this.setState({
+        users: usersList,
+        loading: false,
+      });
     });
   }
 
@@ -32,53 +39,49 @@ class UserList extends Component {
   }
 
   render() {
-    const { users } = this.props;
-    const { loading } = this.state;
+    const { users, loading } = this.state;
 
     return (
       <div>
-        <h2>Users</h2>
-        {loading && <div>Loading ...</div>}
-        <ul>
-          {users.map(user => (
-            <li key={user.uid}>
-              <span>
-                <strong>ID:</strong> {user.uid}
-              </span>
-              <span>
-                <strong>E-Mail:</strong> {user.email}
-              </span>
-              <span>
-                <strong>Username:</strong> {user.username}
-              </span>
-              <span>
-                <Link to={`${ROUTES.ADMIN}/${user.uid}`}>
-                  Details
-                </Link>
-              </span>
-            </li>
-          ))}
-        </ul>
+        <Header as="h2">Users</Header>
+        {loading ? (
+          <Loader active inline />
+        ) : (
+          <Table singleLine>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>ID</Table.HeaderCell>
+                <Table.HeaderCell>Username</Table.HeaderCell>
+                <Table.HeaderCell>Email Address</Table.HeaderCell>
+                <Table.HeaderCell>Actions</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {users.map((user, i) => (
+                <Table.Row key={i}>
+                  <Table.Cell>{user.uid}</Table.Cell>
+                  <Table.Cell>{user.username}</Table.Cell>
+                  <Table.Cell>{user.email}</Table.Cell>
+                  <Table.Cell>
+                    <Button
+                      primary
+                      as={Link}
+                      to={{
+                        pathname: `${ROUTES.ADMIN}/${user.uid}`,
+                        state: { user },
+                      }}
+                    >
+                      Details
+                    </Button>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        )}
       </div>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  users: Object.keys(state.userState.users || {}).map(key => ({
-    ...state.userState.users[key],
-    uid: key,
-  })),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onSetUsers: users => dispatch({ type: 'USERS_SET', users }),
-});
-
-export default compose(
-  withFirebase,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-)(UserList);
+export default withFirebase(UserList);

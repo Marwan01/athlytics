@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
 
+import { AuthUserContext } from '../Session';
 import { withFirebase } from '../Firebase';
 import MessageList from './MessageList';
+
+import {
+  Card,
+  Message,
+  Button,
+  Loader,
+  Form,
+  Icon,
+} from 'semantic-ui-react';
 
 class Messages extends Component {
   constructor(props) {
@@ -12,32 +20,38 @@ class Messages extends Component {
     this.state = {
       text: '',
       loading: false,
+      messages: [],
+      limit: 5,
     };
   }
 
   componentDidMount() {
-    if (!this.props.messages.length) {
-      this.setState({ loading: true });
-    }
-
     this.onListenForMessages();
   }
 
-  componentDidUpdate(props) {
-    if (props.limit !== this.props.limit) {
-      this.onListenForMessages();
-    }
-  }
-
   onListenForMessages = () => {
+    this.setState({ loading: true });
+
     this.props.firebase
       .messages()
       .orderByChild('createdAt')
-      .limitToLast(this.props.limit)
+      .limitToLast(this.state.limit)
       .on('value', snapshot => {
-        this.props.onSetMessages(snapshot.val());
+        const messageObject = snapshot.val();
 
-        this.setState({ loading: false });
+        if (messageObject) {
+          const messageList = Object.keys(messageObject).map(key => ({
+            ...messageObject[key],
+            uid: key,
+          }));
+
+          this.setState({
+            messages: messageList,
+            loading: false,
+          });
+        } else {
+          this.setState({ messages: null, loading: false });
+        }
       });
   };
 
@@ -74,77 +88,76 @@ class Messages extends Component {
   };
 
   onNextPage = () => {
-    this.props.onSetMessagesLimit(this.props.limit + 5);
+    this.setState(
+      state => ({ limit: state.limit + 5 }),
+      this.onListenForMessages,
+    );
   };
 
   render() {
-    const { users, messages } = this.props;
-    const { text, loading } = this.state;
-
+    const { users } = this.props;
+    const { text, messages, loading } = this.state;
     return (
-      <div>
-        {!loading && messages && (
-          <button type="button" onClick={this.onNextPage}>
-            More
-          </button>
+      <AuthUserContext.Consumer>
+        {authUser => (
+          <Card fluid={true}>
+            <Card.Content>
+              <Card.Description>
+                {loading && <Loader active inline="centered" />}
+
+                {!loading && messages && (
+                  <Button
+                    size="small"
+                    positive
+                    type="button"
+                    onClick={this.onNextPage}
+                  >
+                    Load Older Messages
+                  </Button>
+                )}
+
+                {messages && (
+                  <MessageList
+                    messages={messages.map(message => ({
+                      ...message,
+                      user: users
+                        ? users[message.userId]
+                        : { userId: message.userId },
+                    }))}
+                    onEditMessage={this.onEditMessage}
+                    onRemoveMessage={this.onRemoveMessage}
+                  />
+                )}
+
+                {!loading && !messages && (
+                  <Message info>
+                    <p>There are no messages ...</p>
+                  </Message>
+                )}
+
+                {!loading && (
+                  <Form
+                    onSubmit={event =>
+                      this.onCreateMessage(event, authUser)
+                    }
+                  >
+                    <Form.TextArea
+                      value={text}
+                      onChange={this.onChangeText}
+                      placeholder="Enter your message here..."
+                    />
+                    <Button primary type="submit">
+                      Send <Icon name="send" />
+                    </Button>
+                  </Form>
+                )}
+              </Card.Description>
+            </Card.Content>
+          </Card>
         )}
-
-        {loading && <div>Loading ...</div>}
-
-        {messages && (
-          <MessageList
-            messages={messages.map(message => ({
-              ...message,
-              user: users
-                ? users[message.userId]
-                : { userId: message.userId },
-            }))}
-            onEditMessage={this.onEditMessage}
-            onRemoveMessage={this.onRemoveMessage}
-          />
-        )}
-
-        {!messages && <div>There are no messages ...</div>}
-
-        <form
-          onSubmit={event =>
-            this.onCreateMessage(event, this.props.authUser)
-          }
-        >
-          <input
-            type="text"
-            value={text}
-            onChange={this.onChangeText}
-          />
-          <button type="submit">Send</button>
-        </form>
-      </div>
+      </AuthUserContext.Consumer>
     );
   }
 }
 
-const mapStateToProps = state => ({
-  authUser: state.sessionState.authUser,
-  messages: Object.keys(state.messageState.messages || {}).map(
-    key => ({
-      ...state.messageState.messages[key],
-      uid: key,
-    }),
-  ),
-  limit: state.messageState.limit,
-});
-
-const mapDispatchToProps = dispatch => ({
-  onSetMessages: messages =>
-    dispatch({ type: 'MESSAGES_SET', messages }),
-  onSetMessagesLimit: limit =>
-    dispatch({ type: 'MESSAGES_LIMIT_SET', limit }),
-});
-
-export default compose(
-  withFirebase,
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  ),
-)(Messages);
+export default withFirebase(Messages);
