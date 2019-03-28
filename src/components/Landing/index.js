@@ -35,7 +35,7 @@ class NestedModal extends Component {
   }
 }
 
-const ModalExampleMultiple = () => (
+const CalendarComponent = () => (
   <Modal trigger={<Button>Multiple Modals</Button>}>
     <Modal.Header>Modal #1</Modal.Header>
     <Modal.Content image>
@@ -67,5 +67,5 @@ const ModalExampleMultiple = () => (
   </Modal>
   )
 
-  export default ModalExampleMultiple
+  export default CalendarComponent
 
