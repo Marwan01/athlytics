@@ -112,7 +112,7 @@ class Messages extends Component {
                     type="button"
                     onClick={this.onNextPage}
                   >
-                    Load Older Workouts
+                    Load Older Messages
                   </Button>
                 )}
 
@@ -144,10 +144,10 @@ class Messages extends Component {
                     <Form.TextArea
                       value={text}
                       onChange={this.onChangeText}
-                      placeholder="Create new workout"
+                      placeholder="Enter your message here..."
                     />
                     <Button primary type="submit">
-                      Add <Icon name="send" />
+                      Send <Icon name="send" />
                     </Button>
                   </Form>
                 )}
