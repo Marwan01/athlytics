@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import {
   Form,
+  Radio,
   Button,
   Grid,
   Header,
@@ -44,8 +44,11 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 `;
 
 class SignUpFormBase extends Component {
+  state = {}
+  handleChange = (e, { value }) => this.setState({ value })
   constructor(props) {
     super(props);
+    
 
     this.state = { ...INITIAL_STATE };
   }
@@ -160,6 +163,40 @@ class SignUpFormBase extends Component {
               />
             </Form.Field>
           </Form.Group>
+
+
+          <Form>
+        <Form.Field>
+          <Radio
+            label='Student'
+            name='radioGroup'
+            value='Choose Team:'
+            checked={this.state.value === 'Choose Team:'}
+            onChange={this.handleChange}
+            defaultChecked
+          />
+        </Form.Field>
+        <Form.Field>
+          <Radio
+            label='Coach'
+            name='radioGroup'
+            value='Enter Secret Seed:'
+            checked={this.state.value === 'Enter Secret Seed:'}
+            onChange={this.handleChange}
+          />
+        </Form.Field>
+        <Form.Field>         
+            <label>{this.state.value}</label>
+            <input
+              name="notemail"
+              value={email}
+              onChange={this.onChange}
+              type="text"
+              placeholder="Value"
+            />
+        </Form.Field>
+      </Form>
+
           <Form.Field>
             <Checkbox
               label="Admin"
