@@ -13,27 +13,27 @@ h3 {
 	text-align: center;
 }
 
-.columnCalender {
-	float: left;
-	padding: 0;
-	margin: 0;
-	border: solid;
+
+.ui.divided.middle.aligned.list {
+	float: right;
 }
 
-.addedInfo {
-	list-style-type: none;
-	padding: 0;
-	text-align: center;
+.react-calendar { 
+	margin: 1%;
+	height: 400px; /* this should be a percentage but I can figure out why it is doing what it is*/
+	width: 60%;
+	float: left;
 }
 
-.columns {
-	float: left;
-	padding: 0;
-	padding-bottom: 1.25%;
-	padding-left: 1%;
-	padding-right: 0.5%;
-	margin: 0;
-	border: solid;
-	border-radius: 25px;
+.react-calendar__tile {
+	height: 63px;
 }
+
+.list-PopUpDiv{
+	float: left;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+
 
