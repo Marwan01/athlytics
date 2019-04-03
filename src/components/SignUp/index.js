@@ -103,6 +103,7 @@ class SignUpFormBase extends Component {
   };
 
   validateCode = event => {
+    this.setState({sport:''})
     if (event.target.value == "secretcode")
 {    this.setState({isAdmin: true });
 console.log("success" )
@@ -165,7 +166,6 @@ else{
               placeholder="Email Address"
             />
           </Form.Field>
-          <Form.Group widths="equal">
             <Form.Field>
               <label>Password</label>
               <input
@@ -208,7 +208,7 @@ else{
 
             {this.state.value == "Choose Team:"&& (
                 <Form.Field>         
-                <label>{this.state.sport}</label>
+                <label>{"Pick a sport:"}</label>
                 <Dropdown placeholder='Sport' 
                 search 
                 selection 
@@ -233,7 +233,6 @@ else{
           <Button primary disabled={isInvalid} type="submit">
             Sign Up
           </Button>
-          </Form.Group>
 
         </Form>
       </div>
