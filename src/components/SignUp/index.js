@@ -11,6 +11,7 @@ import {
   Header,
   Message,
   Checkbox,
+  Dropdown
 } from 'semantic-ui-react';
 
 const SignUpPage = () => (
@@ -44,11 +45,12 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 `;
 
 class SignUpFormBase extends Component {
-  state = {}
-  handleChange = (e, { value }) => this.setState({ value })
+  handleChange = (e, { value }) => this.setState({  value })
+  handleChange1 = (e, { sport }) => this.setState({  sport })
+
   constructor(props) {
     super(props);
-    
+
 
     this.state = { ...INITIAL_STATE };
   }
@@ -90,6 +92,7 @@ class SignUpFormBase extends Component {
   };
 
   onChange = event => {
+    console.log(event.target.value )
     this.setState({ [event.target.name]: event.target.value });
   };
 
@@ -112,6 +115,11 @@ class SignUpFormBase extends Component {
       passwordOne === '' ||
       email === '' ||
       username === '';
+      const options = [
+        { key: 'soccer', text: 'Soccer', value: 'soccer' },
+        { key: 'baseball', text: 'Baseball', value: 'baseball' },
+        { key: 'tennis', text: 'Tennis', value: 'tennis' }
+      ]
 
     return (
       <div>
@@ -166,36 +174,51 @@ class SignUpFormBase extends Component {
 
 
           <Form>
-        <Form.Field>
-          <Radio
-            label='Student'
-            name='radioGroup'
-            value='Choose Team:'
-            checked={this.state.value === 'Choose Team:'}
-            onChange={this.handleChange}
-            defaultChecked
-          />
-        </Form.Field>
-        <Form.Field>
-          <Radio
-            label='Coach'
-            name='radioGroup'
-            value='Enter Secret Seed:'
-            checked={this.state.value === 'Enter Secret Seed:'}
-            onChange={this.handleChange}
-          />
-        </Form.Field>
-        <Form.Field>         
-            <label>{this.state.value}</label>
-            <input
-              name="notemail"
-              value={email}
-              onChange={this.onChange}
-              type="text"
-              placeholder="Value"
-            />
-        </Form.Field>
-      </Form>
+            <Form.Field>
+              <Radio
+                label='Student'
+                name='radioGroup'
+                value='Choose Team:'
+                checked={this.state.value === 'Choose Team:'}
+                onChange={this.handleChange}
+                defaultChecked
+              />
+            </Form.Field>
+            <Form.Field>
+              <Radio
+                label='Coach'
+                name='radioGroup'
+                value='Enter Secret Seed:'
+                checked={this.state.value === 'Enter Secret Seed:'}
+                onChange={this.handleChange}
+              />
+            </Form.Field>
+
+            {this.state.value == "Choose Team:"&& (
+                <Form.Field>         
+                <label>{this.state.sport}</label>
+                <Dropdown placeholder='Sport' 
+                search 
+                selection 
+                options={options} 
+                onChange={this.handleChange1}
+                />
+
+            </Form.Field>
+            )}
+            {this.state.value == "Enter Secret Seed:"&& (
+                <Form.Field>         
+                <label>{this.state.value}</label>
+                <input
+                  name="notemail"
+                  value={email}
+                  onChange={this.onChange}
+                  type="text"
+                  placeholder="Value"
+                />
+            </Form.Field>
+            )}
+          </Form>
 
           <Form.Field>
             <Checkbox
