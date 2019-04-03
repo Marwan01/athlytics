@@ -31,6 +31,7 @@ const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
   isAdmin: false,
+  sport: null,
   error: null,
 };
 
@@ -45,20 +46,24 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 `;
 
 class SignUpFormBase extends Component {
-  handleChange = (e, { value }) => this.setState({  value })
-  handleChange1 = (e, { sport }) => this.setState({  sport })
+  handleChange = (e, { value }) => {
+  if(value == 'Choose Team:'){
+    this.setState({isAdmin:false})
+  }
+
+
+    this.setState({  value })}
+    handleTeamChange = (e, { value }) => this.setState({ sport: value  })
 
   constructor(props) {
     super(props);
-
-
     this.state = { ...INITIAL_STATE };
   }
 
   onSubmit = event => {
-    const { username, email, passwordOne, isAdmin } = this.state;
+    const { username, email, passwordOne, isAdmin,sport } = this.state;
     const roles = [];
-
+    console.log(this.state)
     if (isAdmin) {
       roles.push(ROLES.ADMIN);
     }
@@ -71,6 +76,7 @@ class SignUpFormBase extends Component {
           username,
           email,
           roles,
+          sport
         });
       })
       .then(() => {
@@ -96,6 +102,15 @@ class SignUpFormBase extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  validateCode = event => {
+    if (event.target.value == "secretcode")
+{    this.setState({isAdmin: true });
+console.log("success" )
+} 
+else{
+  this.setState({isAdmin: true })}
+ };
+
   onChangeCheckbox = () => {
     this.setState({ isAdmin: !this.state.isAdmin });
   };
@@ -107,6 +122,7 @@ class SignUpFormBase extends Component {
       passwordOne,
       passwordTwo,
       isAdmin,
+      sport,
       error,
     } = this.state;
 
@@ -170,10 +186,6 @@ class SignUpFormBase extends Component {
                 placeholder="Confirm Password"
               />
             </Form.Field>
-          </Form.Group>
-
-
-          <Form>
             <Form.Field>
               <Radio
                 label='Student'
@@ -201,7 +213,7 @@ class SignUpFormBase extends Component {
                 search 
                 selection 
                 options={options} 
-                onChange={this.handleChange1}
+                onChange={this.handleTeamChange}
                 />
 
             </Form.Field>
@@ -211,26 +223,18 @@ class SignUpFormBase extends Component {
                 <label>{this.state.value}</label>
                 <input
                   name="notemail"
-                  value={email}
-                  onChange={this.onChange}
+                  // value={email}
+                  onChange={this.validateCode}
                   type="text"
                   placeholder="Value"
                 />
             </Form.Field>
             )}
-          </Form>
-
-          <Form.Field>
-            <Checkbox
-              label="Admin"
-              name="isAdmin"
-              onChange={this.onChangeCheckbox}
-              checked={isAdmin}
-            />
-          </Form.Field>
           <Button primary disabled={isInvalid} type="submit">
             Sign Up
           </Button>
+          </Form.Group>
+
         </Form>
       </div>
     );
