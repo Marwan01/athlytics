@@ -164,7 +164,6 @@ class SignUpFormBase extends Component {
             </Form.Field>
           </Form.Group>
 
-
           <Form>
         <Form.Field>
           <Radio
