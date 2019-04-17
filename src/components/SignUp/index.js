@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import {
   Form,
+  Radio,
   Button,
   Grid,
   Header,
   Message,
   Checkbox,
+  Dropdown
 } from 'semantic-ui-react';
 
 const SignUpPage = () => (
@@ -30,6 +31,7 @@ const INITIAL_STATE = {
   passwordOne: '',
   passwordTwo: '',
   isAdmin: false,
+  sport: null,
   error: null,
 };
 
@@ -44,16 +46,24 @@ const ERROR_MSG_ACCOUNT_EXISTS = `
 `;
 
 class SignUpFormBase extends Component {
+  handleChange = (e, { value }) => {
+  if(value == 'Choose Team:'){
+    this.setState({isAdmin:false})
+  }
+
+
+    this.setState({  value })}
+    handleTeamChange = (e, { value }) => this.setState({ sport: value  })
+
   constructor(props) {
     super(props);
-
     this.state = { ...INITIAL_STATE };
   }
 
   onSubmit = event => {
-    const { username, email, passwordOne, isAdmin } = this.state;
+    const { username, email, passwordOne, isAdmin,sport } = this.state;
     const roles = [];
-
+    console.log(this.state)
     if (isAdmin) {
       roles.push(ROLES.ADMIN);
     }
@@ -66,6 +76,7 @@ class SignUpFormBase extends Component {
           username,
           email,
           roles,
+          sport
         });
       })
       .then(() => {
@@ -87,8 +98,19 @@ class SignUpFormBase extends Component {
   };
 
   onChange = event => {
+    console.log(event.target.value )
     this.setState({ [event.target.name]: event.target.value });
   };
+
+  validateCode = event => {
+    this.setState({sport:''})
+    if (event.target.value == "secretcode")
+{    this.setState({isAdmin: true });
+console.log("success" )
+} 
+else{
+  this.setState({isAdmin: true })}
+ };
 
   onChangeCheckbox = () => {
     this.setState({ isAdmin: !this.state.isAdmin });
@@ -101,6 +123,7 @@ class SignUpFormBase extends Component {
       passwordOne,
       passwordTwo,
       isAdmin,
+      sport,
       error,
     } = this.state;
 
@@ -109,6 +132,11 @@ class SignUpFormBase extends Component {
       passwordOne === '' ||
       email === '' ||
       username === '';
+      const options = [
+        { key: 'soccer', text: 'Soccer', value: 'soccer' },
+        { key: 'baseball', text: 'Baseball', value: 'baseball' },
+        { key: 'tennis', text: 'Tennis', value: 'tennis' }
+      ]
 
     return (
       <div>
@@ -138,7 +166,6 @@ class SignUpFormBase extends Component {
               placeholder="Email Address"
             />
           </Form.Field>
-          <Form.Group widths="equal">
             <Form.Field>
               <label>Password</label>
               <input
@@ -159,18 +186,54 @@ class SignUpFormBase extends Component {
                 placeholder="Confirm Password"
               />
             </Form.Field>
-          </Form.Group>
-          <Form.Field>
-            <Checkbox
-              label="Admin"
-              name="isAdmin"
-              onChange={this.onChangeCheckbox}
-              checked={isAdmin}
-            />
-          </Form.Field>
+            <Form.Field>
+              <Radio
+                label='Student'
+                name='radioGroup'
+                value='Choose Team:'
+                checked={this.state.value === 'Choose Team:'}
+                onChange={this.handleChange}
+                defaultChecked
+              />
+            </Form.Field>
+            <Form.Field>
+              <Radio
+                label='Coach'
+                name='radioGroup'
+                value='Enter Secret Seed:'
+                checked={this.state.value === 'Enter Secret Seed:'}
+                onChange={this.handleChange}
+              />
+            </Form.Field>
+
+            {this.state.value == "Choose Team:"&& (
+                <Form.Field>         
+                <label>{"Pick a sport:"}</label>
+                <Dropdown placeholder='Sport' 
+                search 
+                selection 
+                options={options} 
+                onChange={this.handleTeamChange}
+                />
+
+            </Form.Field>
+            )}
+            {this.state.value == "Enter Secret Seed:"&& (
+                <Form.Field>         
+                <label>{this.state.value}</label>
+                <input
+                  name="notemail"
+                  // value={email}
+                  onChange={this.validateCode}
+                  type="text"
+                  placeholder="Value"
+                />
+            </Form.Field>
+            )}
           <Button primary disabled={isInvalid} type="submit">
             Sign Up
           </Button>
+
         </Form>
       </div>
     );
