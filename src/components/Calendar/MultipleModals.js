@@ -1,6 +1,5 @@
-import { Button, Checkbox, Form } from 'semantic-ui-react'
 import React, { Component } from 'react'
-import { Icon, Modal } from 'semantic-ui-react'
+import { Button, Icon, Modal } from 'semantic-ui-react'
 
 class NestedModal extends Component {
   state = { open: false }
@@ -35,7 +34,7 @@ class NestedModal extends Component {
   }
 }
 
-const CalendarComponent = () => (
+const ModalExampleMultiple = () => (
   <Modal trigger={<Button>Multiple Modals</Button>}>
     <Modal.Header>Modal #1</Modal.Header>
     <Modal.Content image>
@@ -44,28 +43,12 @@ const CalendarComponent = () => (
       </div>
       <Modal.Description>
         <p>We have more to share with you. Follow us along to modal 2</p>
-
       </Modal.Description>
-      <Form>
-  <Form.Field>
-    <label>First Name</label>
-    <input placeholder='First Name' />
-  </Form.Field>
-  <Form.Field>
-    <label>Last Name</label>
-    <input placeholder='Last Name' />
-  </Form.Field>
-  <Form.Field>
-    <Checkbox label='I agree to the Terms and Conditions' />
-  </Form.Field>
-  <Button type='submit'>Submit</Button>
-</Form>
     </Modal.Content>
     <Modal.Actions>
       <NestedModal />
     </Modal.Actions>
   </Modal>
-  )
+)
 
-  export default CalendarComponent
-
+export default ModalExampleMultiple

@@ -1,0 +1,39 @@
+body {
+	font: 14px "Century Gothic", Futura, sans-serif;
+	margin: 20px;
+}
+
+ul {
+	text-align: center;
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+h3 {
+	text-align: center;
+}
+
+
+.ui.divided.middle.aligned.list {
+	float: right;
+}
+
+.react-calendar { 
+	margin: 1%;
+	height: 400px; /* this should be a percentage but I can figure out why it is doing what it is*/
+	width: 60%;
+	float: left;
+}
+
+.react-calendar__tile {
+	height: 63px;
+}
+
+.list-PopUpDiv{
+	float: left;
+	margin-left: 5%;
+	margin-right: 5%;
+}
+
+
+
