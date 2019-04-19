@@ -99,7 +99,7 @@ class ModalExampleDimmer extends Component {
               positive
               icon='arrow right'
               labelPosition='right'
-              content="Next"
+              content="Confirm"
               onClick={this.close}
             />
           </Modal.Actions>
