@@ -32,18 +32,21 @@ componentDidMount(){
     .then(snapshot => {
       const dbUser = snapshot.val();
       let w = dbUser.workouts
-      var newArrayDataOfOjbect = Object.values(w)
-      console.log(newArrayDataOfOjbect)
-      newArrayDataOfOjbect.forEach(function(element) {
-        element.end = new Date(element.end)
-        element.start = new Date(element.start)
-        
-      });
-      console.log(newArrayDataOfOjbect)
+      if (w){
+        var newArrayDataOfOjbect = Object.values(w)
+        console.log(newArrayDataOfOjbect)
+        newArrayDataOfOjbect.forEach(function(element) {
+          element.end = new Date(element.end)
+          element.start = new Date(element.start)
+          
+        });
+        console.log(newArrayDataOfOjbect)
+  
+      // console.log(myData)
+  
+        this.setState({events: newArrayDataOfOjbect})
+      }
 
-    // console.log(myData)
-
-      this.setState({events: newArrayDataOfOjbect})
 
     });
 
@@ -66,7 +69,6 @@ componentDidMount(){
 
   render() {
     const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
-
     return (
           <AuthUserContext.Consumer>
     {authUser => (

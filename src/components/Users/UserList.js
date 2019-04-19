@@ -53,6 +53,7 @@ class UserList extends Component {
                 <Table.HeaderCell>ID</Table.HeaderCell>
                 <Table.HeaderCell>Username</Table.HeaderCell>
                 <Table.HeaderCell>Email Address</Table.HeaderCell>
+                <Table.HeaderCell>Sport</Table.HeaderCell>
                 <Table.HeaderCell>Actions</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
@@ -62,6 +63,7 @@ class UserList extends Component {
                   <Table.Cell>{user.uid}</Table.Cell>
                   <Table.Cell>{user.username}</Table.Cell>
                   <Table.Cell>{user.email}</Table.Cell>
+                  <Table.Cell>{user.sport}</Table.Cell>
                   <Table.Cell>
                     <Button
                       primary
