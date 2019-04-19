@@ -54,37 +54,113 @@ class ModalExampleDimmer extends Component {
       <Icon name='trophy' />
       Create and assign a new workout for "mm/dd/yyyy and given time(display here)"
     </div>
-          </Modal.Header>
-          <Modal.Content image>
+    </Modal.Header>
+    <Modal.Content image>
 
-            <Image wrapped size='small' src='http://pluspng.com/img-png/png-exercise-exercise-icon-image-16341-300.png' />
-            <Modal.Description>
-              <Header>Workout Name:</Header>
-              <Form>
-                <Form.Field>
-                  <input placeholder='Upper body workout' />
-                </Form.Field>
-                </Form>
-            </Modal.Description>
-          </Modal.Content>
-
-
-          <Modal.Content image>
+      <Image wrapped size='small' src='http://pluspng.com/img-png/png-exercise-exercise-icon-image-16341-300.png' />
+      <Modal.Description>
+        <Header>Workout Name:</Header>
+        <Form>
+          <Form.Field>
+            <input placeholder='Upper body workout' />
+          </Form.Field>
+          </Form>
+      </Modal.Description>
+    </Modal.Content>
 
 
-          <Form image>
-    <Form.Group>
-          <Form.Select  label='Block' options={options} placeholder='Block' />
-          <Form.Input  label='Exercise Name' placeholder='Push Ups' />
-          <Form.Input  label='Reps' placeholder='8x3' />
-          <Form.Input  label='Weight (lb)' placeholder='45' />
-        </Form.Group>
-    </Form>
-
-
-
-
+      <Modal.Content image>
+      <Form image>
+      <Form.Group>
+        <Form.Select  label='Block' options={options} placeholder='Block' />
+        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
+        <Form.Input  label='Reps' placeholder='8x3' />
+       <Form.Input  label='Weight (lb)' placeholder='45' />
+     </Form.Group>
+    <Button icon><Icon name='plus' /></Button>
+  </Form>
 </Modal.Content>
+
+
+<Modal.Content image>
+      <Form image>
+      <Form.Group>
+        <Form.Select  label='Block' options={options} placeholder='Block' />
+        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
+        <Form.Input  label='Reps' placeholder='8x3' />
+       <Form.Input  label='Weight (lb)' placeholder='45' />
+     </Form.Group>
+    <Button icon><Icon name='plus' /></Button>
+  </Form>
+</Modal.Content>
+
+
+<Modal.Content image>
+      <Form image>
+      <Form.Group>
+        <Form.Select  label='Block' options={options} placeholder='Block' />
+        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
+        <Form.Input  label='Reps' placeholder='8x3' />
+       <Form.Input  label='Weight (lb)' placeholder='45' />
+     </Form.Group>
+    <Button icon><Icon name='plus' /></Button>
+  </Form>
+</Modal.Content>
+
+
+<Modal.Content image>
+      <Form image>
+      <Form.Group>
+        <Form.Select  label='Block' options={options} placeholder='Block' />
+        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
+        <Form.Input  label='Reps' placeholder='8x3' />
+       <Form.Input  label='Weight (lb)' placeholder='45' />
+     </Form.Group>
+    <Button icon><Icon name='plus' /></Button>
+  </Form>
+</Modal.Content>
+
+
+<Modal.Content image>
+      <Form image>
+      <Form.Group>
+        <Form.Select  label='Block' options={options} placeholder='Block' />
+        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
+        <Form.Input  label='Reps' placeholder='8x3' />
+       <Form.Input  label='Weight (lb)' placeholder='45' />
+     </Form.Group>
+    <Button icon><Icon name='plus' /></Button>
+  </Form>
+</Modal.Content>
+
+
+<Modal.Content image>
+      <Form image>
+      <Form.Group>
+        <Form.Select  label='Block' options={options} placeholder='Block' />
+        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
+        <Form.Input  label='Reps' placeholder='8x3' />
+       <Form.Input  label='Weight (lb)' placeholder='45' />
+     </Form.Group>
+    <Button icon><Icon name='plus' /></Button>
+  </Form>
+</Modal.Content>
+
+
+<Modal.Content image>
+      <Form image>
+      <Form.Group>
+        <Form.Select  label='Block' options={options} placeholder='Block' />
+        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
+        <Form.Input  label='Reps' placeholder='8x3' />
+       <Form.Input  label='Weight (lb)' placeholder='45' />
+     </Form.Group>
+    <Button icon><Icon name='plus' /></Button>
+  </Form>
+</Modal.Content>
+
+
+
           <Modal.Actions>
             <Button color='black' onClick={this.close}>
               Cancel
