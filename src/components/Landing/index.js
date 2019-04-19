@@ -63,7 +63,12 @@ class ModalExampleDimmer extends Component {
     this.state = {
       open: false,
       fields:[0],
-      block: '', exerciseName: '', reps: '', weight: '',
+      exercises: [
+        {
+          exerciseName: 'Z trap', reps: '3', weight: '12',
+        }
+      ],
+      exerciseName: '', reps: '', weight: '',
 
       submittedName: '', submittedExerciseName: '', submittedReps: '', submittedWeight: '',
     };
@@ -85,10 +90,9 @@ class ModalExampleDimmer extends Component {
   };
 
   handleSubmit = () => {
-    const { block, exerciseName, reps, weight } = this.state
+    const {exerciseName, reps, weight } = this.state
 
     this.setState({
-      submittedName: block,
       submittedExerciseName: exerciseName,
       submittedReps: reps,
       submittedWeight: weight
@@ -101,7 +105,7 @@ class ModalExampleDimmer extends Component {
 
   render() {
     const { open, dimmer } = this.state
-    const { block, exerciseName, reps, weight,
+    const { exerciseName, reps, weight,
       submittedName, submittedExerciseName, submittedReps, submittedWeight } = this.state
 
     return (
@@ -115,8 +119,6 @@ class ModalExampleDimmer extends Component {
     </div>
           </Modal.Header>
           <Modal.Content image>
-
-    <Divider horizontal>Exercises</Divider>
             <Image wrapped size='small' src={require('./../../img/exercise.png')} />
             <Modal.Description image>
               <Form>
@@ -128,6 +130,7 @@ class ModalExampleDimmer extends Component {
 
             </Modal.Description>
           </Modal.Content>
+          <Divider horizontal>Exercises</Divider>
 
           {this.state.fields.map((i) =>
             <Avatar options={options} action={this.handleChange} state={this.state} loc={i}> </Avatar>
@@ -139,7 +142,7 @@ class ModalExampleDimmer extends Component {
           </Modal.Content>
 
           <strong>onChange:</strong>
-        <pre>{JSON.stringify({ block, exerciseName, reps, weight }, null, 2)}</pre>
+        <pre>{JSON.stringify({ exerciseName, reps, weight }, null, 2)}</pre>
         <strong>onSubmit:</strong>
         <pre>{JSON.stringify({ submittedName, submittedExerciseName, submittedReps, submittedWeight}, null, 2)}</pre>
 
@@ -174,8 +177,6 @@ class Avatar extends Component {
       <Modal.Content image>
       <Form image >
         <Form.Group>
-          {/* FIX THE BLOCKVALUE TO GET SELECTED VALUE OF DROPDOWN MENU */}
-          {/* <Form.Select name='block' value={this.props.state.block} onChange={this.props.action} label='Block' options={this.props.options} placeholder='Block' /> */}
           <Form.Input name='exerciseName' value={this.props.state.exerciseName} onChange={this.props.action} label='Exercise Name' placeholder='Push Ups' />
           <Form.Input name='reps' value={this.props.state.reps} onChange={this.props.action} label='Reps' placeholder='8x3' />
           <Form.Input name='weight' value={this.props.state.weight} onChange={this.props.action} label='Weight (lb)' placeholder='45' />
