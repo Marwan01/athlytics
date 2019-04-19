@@ -177,6 +177,7 @@ class Avatar extends Component {
       <Modal.Content image>
       <Form image >
         <Form.Group>
+          <label>{this.props.loc + 1}.</label>
           <Form.Input name='exerciseName' value={this.props.state.exerciseName} onChange={this.props.action} label='Exercise Name' placeholder='Push Ups' />
           <Form.Input name='reps' value={this.props.state.reps} onChange={this.props.action} label='Reps' placeholder='8x3' />
           <Form.Input name='weight' value={this.props.state.weight} onChange={this.props.action} label='Weight (lb)' placeholder='45' />
