@@ -133,9 +133,39 @@ else{
       email === '' ||
       username === '';
       const options = [
-        { key: 'soccer', text: 'Soccer', value: 'soccer' },
-        { key: 'baseball', text: 'Baseball', value: 'baseball' },
-        { key: 'tennis', text: 'Tennis', value: 'tennis' }
+        { key: 'Women soccer', text: 'Women Soccer', value: 'Women soccer' },
+        { key: 'Men soccer', text: 'Men Soccer', value: 'Men soccer' },
+        { key: 'Softball', text: 'Softball', value: 'Softball' },
+        { key: 'Men baseball', text: 'Men Baseball', value: 'Men baseball' },
+        { key: 'Women tennis', text: 'Women Tennis', value: 'Women tennis' },
+        { key: 'Men tennis', text: 'Men Tennis', value: 'Men tennis' },
+        { key: 'Women basketball', text: 'Women Basketball', value: 'Women basketball' },
+        { key: 'Men basketball', text: 'Men Basketball', value: 'Men basketball' },
+        { key: 'Women diving', text: 'Women Diving', value: 'Women diving' },
+        { key: 'Men diving', text: 'Men Diving', value: 'Men diving' },
+        { key: 'Women cross country', text: 'Women Cross Country', value: 'Women cross country' },
+        { key: 'Men cross country', text: 'Men Cross Country', value: 'Men cross country' },
+        { key: 'Women track and field', text: 'Women Track and Field', value: 'Women track and field' },
+        { key: 'Men track and field', text: 'Men Track and Field', value: 'Men track and field' },
+        { key: 'Women golf', text: 'Women Golf', value: 'Women golf' },
+        { key: 'Men golf', text: 'Men Golf', value: 'Men golf' },
+        { key: 'Women ice hockey', text: 'Women Ice Hockey', value: 'Women ice hockey' },
+        { key: 'Men ice hockey', text: 'Men Ice Hockey', value: 'Men ice hockey' },
+        { key: 'Field Hockey', text: 'Field Hockey', value: 'Field hockey' },
+        { key: 'Women lacrosse', text: 'Women Lacrosse', value: 'Women lacrosse' },
+        { key: 'Men lacrosse', text: 'Men Lacrosse', value: 'Men lacrosse' },
+        { key: 'Women rugby', text: 'Women Rugby', value: 'Women rugby' },
+        { key: 'Men rugby', text: 'Men Rugby', value: 'Men rugby' },
+        { key: 'Women swimming', text: 'Women Swimming', value: 'Women swimming' },
+        { key: 'Men swimming', text: 'Men Swimming', value: 'Men swimming' },
+        { key: 'Synchronized swimming', text: 'Synchronized Swimming', value: 'Synchronized swimming' },
+        { key: 'Women volleyball', text: 'Women Volleyball', value: 'Women volleyball' },
+        { key: 'Men volleyball', text: 'Men Volleyball', value: 'Men volleyball' },
+        { key: 'Women water polo', text: 'Women Water Polo', value: 'Women water polo' },
+        { key: 'Men water polo', text: 'Men Water Polo', value: 'Men water polo' },
+        { key: 'Women wrestling', text: 'Women Wrestling', value: 'Women wrestling' },
+        { key: 'Men wrestling', text: 'Men Wrestling', value: 'Men wrestling' },
+        { key: 'Gymnastics', text: 'Gymnastics', value: 'Gymnastics' },
       ]
 
     return (
