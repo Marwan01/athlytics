@@ -5,6 +5,7 @@ import { Icon, Modal } from 'semantic-ui-react'
 class NestedModal extends Component {
   state = { open: false }
 
+
   open = () => this.setState({ open: true })
   close = () => this.setState({ open: false })
 
@@ -37,30 +38,25 @@ class NestedModal extends Component {
 
 const CalendarComponent = () => (
   <Modal trigger={<Button>Multiple Modals</Button>}>
-    <Modal.Header>Modal #1</Modal.Header>
-    <Modal.Content image>
-      <div className='image'>
-        <Icon name='right arrow' />
+    <Modal.Header>
+            <div className='image'>
+        <Icon name='trophy' />
+        Create and assign a new workout for {{date}}
       </div>
-      <Modal.Description>
-        <p>We have more to share with you. Follow us along to modal 2</p>
-
-      </Modal.Description>
-      <Form>
+      
+    </Modal.Header>
+    <Modal.Content image>
+    <Form>
   <Form.Field>
-    <label>First Name</label>
-    <input placeholder='First Name' />
+    <label>Workout Name</label>
+    <input placeholder='Upper body workout' />
   </Form.Field>
   <Form.Field>
-    <label>Last Name</label>
-    <input placeholder='Last Name' />
-  </Form.Field>
-  <Form.Field>
-    <Checkbox label='I agree to the Terms and Conditions' />
-  </Form.Field>
-  <Button type='submit'>Submit</Button>
-</Form>
-    </Modal.Content>
+<label>Date</label>
+<input placeholder='First Name' />
+</Form.Field>
+  </Form>
+   </Modal.Content>
     <Modal.Actions>
       <NestedModal />
     </Modal.Actions>
@@ -68,4 +64,3 @@ const CalendarComponent = () => (
   )
 
   export default CalendarComponent
-
