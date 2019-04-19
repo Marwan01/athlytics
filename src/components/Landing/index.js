@@ -36,7 +36,7 @@ class NestedModal extends Component {
   }
 }
 
-const CalendarComponent = () => (
+const CalendarComponent = (date) => (
   <Modal trigger={<Button>Multiple Modals</Button>}>
     <Modal.Header>
             <div className='image'>
