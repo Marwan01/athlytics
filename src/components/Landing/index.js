@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Header, Image, Modal, Icon,Form ,Divider} from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Icon, Form } from 'semantic-ui-react'
 import "react-datepicker/dist/react-datepicker.css";
 import _ from 'lodash'
 
@@ -58,79 +59,87 @@ const teams = [
 
 class ModalExampleDimmer extends Component {
   constructor(props) {
-    
+
     super(props);
     this.state = {
       open: false,
-        block: '', exerciseName: '', reps: '', weight: '',
-      
+      fields:[0],
+      block: '', exerciseName: '', reps: '', weight: '',
+
       submittedName: '', submittedExerciseName: '', submittedReps: '', submittedWeight: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.addField = this.addField.bind(this);
   }
   handleChange = (e, { name, value }) => this.setState({ [name]: value })
+
+  addField = () => {
+    console.log("called")
+    let last = this.state.fields[this.state.fields.length - 1]
+    let arr = this.state.fields
+    arr.push(last + 1)
+
+    this.setState({
+      fields: arr
+    });
+
+  };
 
   handleSubmit = () => {
     const { block, exerciseName, reps, weight } = this.state
 
-    this.setState({ submittedName: block,
+    this.setState({
+      submittedName: block,
       submittedExerciseName: exerciseName,
-      submittedReps:reps,
-      submittedWeight: weight})
+      submittedReps: reps,
+      submittedWeight: weight
+    })
   }
 
-  
+
   show = dimmer => () => this.setState({ dimmer, open: true })
   close = () => this.setState({ open: false })
 
   render() {
     const { open, dimmer } = this.state
     const { block, exerciseName, reps, weight,
-      submittedName, submittedExerciseName, submittedReps, submittedWeight} = this.state
+      submittedName, submittedExerciseName, submittedReps, submittedWeight } = this.state
 
     return (
       <div>
         <Button onClick={this.show(true)}>Default</Button>
         <Modal dimmer={dimmer} open={open} onClose={this.close}>
           <Modal.Header>
-          <div className='image'>
-      <Icon name='trophy' />
-      Create and assign a new workout for "mm/dd/yyyy and given time(display here)"
+            <div className='image'>
+              <Icon name='trophy' />
+              Create and assign a new workout for "mm/dd/yyyy and given time(display here)"
     </div>
-    </Modal.Header>
-    <Modal.Content image>
+          </Modal.Header>
+          <Modal.Content image>
 
-      <Image wrapped size='small' src={require('./../../img/exercise.png')} />
-      <Modal.Description image>
-        <Form>
-          <Form.Group>
-          <Form.Input  label='Workout Name' onChange={(evt1) => { console.log(evt1.target.value); }} placeholder='Upper Body Workout' />
-          <Form.Select  onChange={() => { console.log("teamname"); }} label='Assign to' options={teams} placeholder='Team' />
-          </Form.Group>
-         </Form>
-          
-      </Modal.Description>
-    </Modal.Content>
     <Divider horizontal>Exercises</Divider>
+            <Image wrapped size='small' src={require('./../../img/exercise.png')} />
+            <Modal.Description image>
+              <Form>
+                <Form.Group>
+                  <Form.Input label='Workout Name' onChange={(evt1) => { console.log(evt1.target.value); }} placeholder='Upper Body Workout' />
+                  {/* <Form.Select onChange={() => { console.log("teamname"); }} label='Assign to' options={teams} placeholder='Team' /> */}
+                </Form.Group>
+              </Form>
 
+            </Modal.Description>
+          </Modal.Content>
 
-      <Modal.Content image>
-      <Form image onSubmit={this.handleSubmit}>
-      <Form.Group>
-        {/* FIX THE BLOCKVALUE TO GET SELECTED VALUE OF DROPDOWN MENU */}
-        <Form.Select  name = 'block' value={block} onChange={this.handleChange}  label='Block' options={options} placeholder='Block' />
-        <Form.Input  name = 'exerciseName' value={exerciseName} onChange={this.handleChange} label='Exercise Name' placeholder='Push Ups' />
-        <Form.Input  name = 'reps'  value={reps} onChange={this.handleChange} label='Reps' placeholder='8x3' />
-       <Form.Input  name = 'weight' value={weight} onChange={this.handleChange} label='Weight (lb)' placeholder='45' />
-       <Form.Button content='Save' />
-     </Form.Group>
-    </Form>
-    </Modal.Content>
-    <Modal.Content image>
-    <Button icon><Icon name='plus' /></Button>
-    </Modal.Content>
+          {this.state.fields.map((i) =>
+            <Avatar options={options} action={this.handleChange} state={this.state} loc={i}> </Avatar>
+            )
+          }
 
-    <strong>onChange:</strong>
+          <Modal.Content image>
+            <Button icon onClick={this.addField}><Icon name='plus' /></Button>
+          </Modal.Content>
+
+          <strong>onChange:</strong>
         <pre>{JSON.stringify({ block, exerciseName, reps, weight }, null, 2)}</pre>
         <strong>onSubmit:</strong>
         <pre>{JSON.stringify({ submittedName, submittedExerciseName, submittedReps, submittedWeight}, null, 2)}</pre>
@@ -149,6 +158,31 @@ class ModalExampleDimmer extends Component {
           </Modal.Actions>
         </Modal>
       </div>
+    )
+  }
+}
+
+
+class Avatar extends Component {
+
+  componentDidMount() {
+
+  }
+  render() {
+    let clicked = false;
+    let last = this.props.state.fields[this.props.state.fields - 1] == this.props.loc
+    return (
+      <Modal.Content image>
+      <Form image >
+        <Form.Group>
+          {/* FIX THE BLOCKVALUE TO GET SELECTED VALUE OF DROPDOWN MENU */}
+          {/* <Form.Select name='block' value={this.props.state.block} onChange={this.props.action} label='Block' options={this.props.options} placeholder='Block' /> */}
+          <Form.Input name='exerciseName' value={this.props.state.exerciseName} onChange={this.props.action} label='Exercise Name' placeholder='Push Ups' />
+          <Form.Input name='reps' value={this.props.state.reps} onChange={this.props.action} label='Reps' placeholder='8x3' />
+          <Form.Input name='weight' value={this.props.state.weight} onChange={this.props.action} label='Weight (lb)' placeholder='45' />
+        </Form.Group>
+      </Form>
+    </Modal.Content>
     )
   }
 }
