@@ -69,10 +69,9 @@ class ModalExampleDimmer extends Component {
     this.addField = this.addField.bind(this);
   }
   handleChange = (i,event) => {
-    console.log(i)
   let a = [event.target.name]
-    console.log(a)
-    this.setState({ [event.target.name]: event.target.value })}
+    this.setState({ [event.target.name]: event.target.value })
+  }
 
   addField = () => {
     console.log("called")
@@ -83,7 +82,6 @@ class ModalExampleDimmer extends Component {
     this.setState({
       fields: arr
     });
-
   };
 
   handleSubmit = () => {
@@ -99,6 +97,7 @@ class ModalExampleDimmer extends Component {
 
   show = dimmer => () => this.setState({ dimmer, open: true })
   close = () => this.setState({ open: false })
+  confirm = () => this.setState({ workout: {} })
 
   render() {
     const { open, dimmer } = this.state
@@ -121,7 +120,7 @@ class ModalExampleDimmer extends Component {
               <Form>
                 <Form.Group>
                   <Form.Input label='Workout Name' onChange={(evt1) => { console.log(evt1.target.value); }} placeholder='Upper Body Workout' />
-                  {/* <Form.Select onChange={() => { console.log("teamname"); }} label='Assign to' options={teams} placeholder='Team' /> */}
+                  <Form.Select onChange={() => { console.log("teamname"); }} label='Assign to' options={teams} placeholder='Team' />
                 </Form.Group>
               </Form>
 
@@ -152,7 +151,7 @@ class ModalExampleDimmer extends Component {
               icon='arrow right'
               labelPosition='right'
               content="Confirm"
-              onClick={this.close}
+              onClick={this.confirm}
             />
           </Modal.Actions>
         </Modal>
@@ -172,7 +171,7 @@ class Line extends Component {
     let last = this.props.state.fields[this.props.state.fields - 1] == this.props.index
     return (
       <Modal.Content image>
-      <Form image >
+      <Form image size={'big'}>
         <Form.Group>
           <label>{this.props.index + 1}.</label>
           <Form.Input name='exerciseName' value={this.props.state.exerciseName} onChange={(e) => this.props.action(this.props.index, e)} label='Exercise Name' placeholder='Push Ups' />
