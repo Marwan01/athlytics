@@ -32,6 +32,7 @@ const NavigationAuth = ({ authUser }) => (
       {authUser.roles.includes(ROLES.ADMIN) && (
         <Menu.Item name="Calendar" as={Link} to={ROUTES.CALENDAR} />
       )}
+      <Menu.Item name="Workouts" as={Link} to={ROUTES.WORKOUTS} />
       <SignOutButton />
     </Container>
   </Menu>

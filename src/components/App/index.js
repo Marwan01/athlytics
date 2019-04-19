@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Navigation from '../Navigation';
 import LandingPage from '../Landing';
+import Workouts from '../Workouts'
 import SignUpPage from '../SignUp';
 import SignInPage from '../SignIn';
 import PasswordForgetPage from '../PasswordForget';
@@ -33,6 +34,8 @@ const App = () => (
         <Route path={ROUTES.ACCOUNT} component={AccountPage} />
         <Route path={ROUTES.ADMIN} component={AdminPage} />
         <Route path={ROUTES.CALENDAR} component={CalendarPage} />
+        <Route path={ROUTES.WORKOUTS} component={Workouts} />
+
       </Container>
     </div>
   </Router>
