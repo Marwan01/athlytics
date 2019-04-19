@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Header, Image, Modal, Icon,Form } from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Icon,Form ,Divider} from 'semantic-ui-react'
 import "react-datepicker/dist/react-datepicker.css";
 import _ from 'lodash'
 
@@ -111,6 +111,7 @@ class ModalExampleDimmer extends Component {
           
       </Modal.Description>
     </Modal.Content>
+    <Divider horizontal>Exercises</Divider>
 
 
       <Modal.Content image>
