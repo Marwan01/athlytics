@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Button, Header, Image, Modal, Icon,Form } from 'semantic-ui-react'
 import "react-datepicker/dist/react-datepicker.css";
 import _ from 'lodash'
-import { Dropdown } from 'semantic-ui-react'
+
 
 const options = [
   { key: 'A', text: 'A', value: 'A' },
@@ -19,8 +19,10 @@ const options = [
 
 
 
+
 class ModalExampleDimmer extends Component {
   constructor(props) {
+    
     super(props);
     this.state = {
       open: false,
@@ -29,6 +31,7 @@ class ModalExampleDimmer extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
   }
+  
 
   handleChange(date) {
     this.setState({
@@ -36,6 +39,7 @@ class ModalExampleDimmer extends Component {
     });
   }
 
+  
   show = dimmer => () => this.setState({ dimmer, open: true })
   close = () => this.setState({ open: false })
 
@@ -72,92 +76,18 @@ class ModalExampleDimmer extends Component {
       <Modal.Content image>
       <Form image>
       <Form.Group>
-        <Form.Select  label='Block' options={options} placeholder='Block' />
-        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
-        <Form.Input  label='Reps' placeholder='8x3' />
-       <Form.Input  label='Weight (lb)' placeholder='45' />
+        {/* FIX THE BLOCKVALUE TO GET SELECTED VALUE OF DROPDOWN MENU */}
+        <Form.Select  onChange={() => { console.log("blockvalue"); }} label='Block' options={options} placeholder='Block' />
+        <Form.Input  onChange={(evt1) => { console.log(evt1.target.value); }} label='Exercise Name' placeholder='Push Ups' />
+        <Form.Input  onChange={(evt2) => { console.log(evt2.target.value); }}label='Reps' placeholder='8x3' />
+       <Form.Input  onChange={(evt3) => { console.log(evt3.target.value); }}label='Weight (lb)' placeholder='45' />
      </Form.Group>
-    <Button icon><Icon name='plus' /></Button>
   </Form>
 </Modal.Content>
-
-
 <Modal.Content image>
-      <Form image>
-      <Form.Group>
-        <Form.Select  label='Block' options={options} placeholder='Block' />
-        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
-        <Form.Input  label='Reps' placeholder='8x3' />
-       <Form.Input  label='Weight (lb)' placeholder='45' />
-     </Form.Group>
-    <Button icon><Icon name='plus' /></Button>
-  </Form>
+<Button icon><Icon name='plus' /></Button>
 </Modal.Content>
 
-
-<Modal.Content image>
-      <Form image>
-      <Form.Group>
-        <Form.Select  label='Block' options={options} placeholder='Block' />
-        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
-        <Form.Input  label='Reps' placeholder='8x3' />
-       <Form.Input  label='Weight (lb)' placeholder='45' />
-     </Form.Group>
-    <Button icon><Icon name='plus' /></Button>
-  </Form>
-</Modal.Content>
-
-
-<Modal.Content image>
-      <Form image>
-      <Form.Group>
-        <Form.Select  label='Block' options={options} placeholder='Block' />
-        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
-        <Form.Input  label='Reps' placeholder='8x3' />
-       <Form.Input  label='Weight (lb)' placeholder='45' />
-     </Form.Group>
-    <Button icon><Icon name='plus' /></Button>
-  </Form>
-</Modal.Content>
-
-
-<Modal.Content image>
-      <Form image>
-      <Form.Group>
-        <Form.Select  label='Block' options={options} placeholder='Block' />
-        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
-        <Form.Input  label='Reps' placeholder='8x3' />
-       <Form.Input  label='Weight (lb)' placeholder='45' />
-     </Form.Group>
-    <Button icon><Icon name='plus' /></Button>
-  </Form>
-</Modal.Content>
-
-
-<Modal.Content image>
-      <Form image>
-      <Form.Group>
-        <Form.Select  label='Block' options={options} placeholder='Block' />
-        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
-        <Form.Input  label='Reps' placeholder='8x3' />
-       <Form.Input  label='Weight (lb)' placeholder='45' />
-     </Form.Group>
-    <Button icon><Icon name='plus' /></Button>
-  </Form>
-</Modal.Content>
-
-
-<Modal.Content image>
-      <Form image>
-      <Form.Group>
-        <Form.Select  label='Block' options={options} placeholder='Block' />
-        <Form.Input  label='Exercise Name' placeholder='Push Ups' />
-        <Form.Input  label='Reps' placeholder='8x3' />
-       <Form.Input  label='Weight (lb)' placeholder='45' />
-     </Form.Group>
-    <Button icon><Icon name='plus' /></Button>
-  </Form>
-</Modal.Content>
 
 
 
