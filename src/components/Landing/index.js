@@ -133,7 +133,7 @@ class ModalExampleDimmer extends Component {
           <Divider horizontal>Exercises</Divider>
 
           {this.state.fields.map((i) =>
-            <Avatar options={options} action={this.handleChange} state={this.state} loc={i}> </Avatar>
+            <Line options={options} action={this.handleChange} state={this.state} loc={i}> </Line>
             )
           }
 
@@ -165,7 +165,7 @@ class ModalExampleDimmer extends Component {
 }
 
 
-class Avatar extends Component {
+class Line extends Component {
 
   componentDidMount() {
 
