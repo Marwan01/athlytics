@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Header, Image, Modal, Icon,Form ,Divider} from 'semantic-ui-react'
+import { Button, Header, Image, Modal, Icon, Form, Divider } from 'semantic-ui-react'
 import "react-datepicker/dist/react-datepicker.css";
 import _ from 'lodash'
 
@@ -48,8 +48,8 @@ class ModalExampleDimmer extends Component {
     super(props);
     this.state = {
       open: false,
-      
-      fields:[0],
+
+      fields: [0],
       workout: {
         workoutName: '',
         team: '',
@@ -68,42 +68,40 @@ class ModalExampleDimmer extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.addField = this.addField.bind(this);
   }
-  handleChange = (i,event) => {
-  let a = event.target.name
+  handleChange = (exercise_index, event) => {
+    
+    let field_to_change = event.target.name
 
-  let w = this.state.workout
-  w.exercises[i][a] = event.target.value
-  console.log(w.exercises[i][a])
+    let workout_copy = this.state.workout
+
+    workout_copy.exercises[exercise_index][field_to_change] = event.target.value
 
 
-  
-    this.setState({ workout: w})}
+
+    this.setState({ workout: workout_copy})
+  }
 
   addField = () => {
-    console.log("called")
     let last = this.state.fields[this.state.fields.length - 1]
     let arr = this.state.fields
     arr.push(last + 1)
-
     this.setState({
       fields: arr
     });
 
-    let w = this.state.workout
-    let exercise1 = {
-      exerciseName: 'Test', reps: '3', weight: '12',
-    }
 
-    w.exercises.push(exercise1)
+    let w = this.state.workout
+    let default_exercise = {
+      exerciseName: '', reps: '', weight: '',
+    }
+    w.exercises.push(default_exercise)
     this.setState({
       workout: w
     });
-    console.log(this.state.workout)
-
   };
 
   handleSubmit = () => {
-    const {exerciseName, reps, weight } = this.state
+    const { exerciseName, reps, weight } = this.state
 
     this.setState({
       submittedExerciseName: exerciseName,
@@ -114,7 +112,8 @@ class ModalExampleDimmer extends Component {
 
 
   show = dimmer => () => this.setState({ dimmer, open: true })
-  confirm = () => this.setState({ workout: {} })
+  close = () => this.setState({ open: !this.state.open})
+  // confirm = () => this.setState({ workout: {} })
 
   render() {
     const { open, dimmer } = this.state
@@ -137,7 +136,7 @@ class ModalExampleDimmer extends Component {
               <Form>
                 <Form.Group>
                   <Form.Input label='Workout Name' onChange={(evt1) => { console.log(evt1.target.value); }} placeholder='Upper Body Workout' />
-                  <Form.Select onChange={() => { console.log("teamname"); }} label='Assign to' options={teams} placeholder='Team' />
+                  <Form.Select onChange={(e) => { console.log(e.target); }} label='Assign to' options={teams} placeholder='Team' />
                 </Form.Group>
               </Form>
 
@@ -146,18 +145,13 @@ class ModalExampleDimmer extends Component {
           <Divider horizontal>Exercises</Divider>
 
           {this.state.fields.map((i) =>
-            <Line action={this.handleChange} state={this.state} index={i}> </Line>
-            )
+            <Line handleChange={this.handleChange} state={this.state} index={i}> </Line>
+          )
           }
 
           <Modal.Content image>
             <Button icon onClick={this.addField}><Icon name='plus' /></Button>
           </Modal.Content>
-
-          <strong>onChange:</strong>
-        <pre>{JSON.stringify({ exerciseName, reps, weight }, null, 2)}</pre>
-        <strong>onSubmit:</strong>
-        <pre>{JSON.stringify({ submittedName, submittedExerciseName, submittedReps, submittedWeight}, null, 2)}</pre>
 
           <Modal.Actions>
             <Button color='black' onClick={this.close}>
@@ -179,25 +173,20 @@ class ModalExampleDimmer extends Component {
 
 
 class Line extends Component {
-
-  componentDidMount() {
-
-  }
   render() {
-    let clicked = false;
-    let last = this.props.state.fields[this.props.state.fields - 1] == this.props.index
-    let el = this.props.state.workout.exercises[this.props.index]
+    let index = this.props.index
+    let exercise_path_in_state = this.props.state.workout.exercises[index]
     return (
       <Modal.Content image>
-      <Form image size={'big'}>
-        <Form.Group>
-          <label>{this.props.index + 1}.</label>
-          <Form.Input name='exerciseName' value={el.exerciseName} onChange={(e) => this.props.action(this.props.index, e)} label='Exercise Name' placeholder='Push Ups' />
-          <Form.Input name='reps' value={el.reps} onChange={(e) => this.props.action(this.props.index, e)} label='Reps' placeholder='8x3' />
-          <Form.Input name='weight' value={el.weight} onChange={(e) => this.props.action(this.props.index, e)} label='Weight (lb)' placeholder='45' />
-        </Form.Group>
-      </Form>
-    </Modal.Content>
+        <Form image size={'big'}>
+          <Form.Group>
+            <label>{index + 1}.</label>
+            <Form.Input name='exerciseName' value={exercise_path_in_state.exerciseName} onChange={(e) => this.props.handleChange(index, e)} label='Exercise Name' placeholder='Push Ups' />
+            <Form.Input name='reps' value={exercise_path_in_state.reps} onChange={(e) => this.props.handleChange(index, e)} label='Reps' placeholder='8x3' />
+            <Form.Input name='weight' value={exercise_path_in_state.weight} onChange={(e) => this.props.handleChange(index, e)} label='Weight (lb)' placeholder='45' />
+          </Form.Group>
+        </Form>
+      </Modal.Content>
     )
   }
 }
