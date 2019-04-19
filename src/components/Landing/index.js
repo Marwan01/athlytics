@@ -3,20 +3,6 @@ import { Button, Header, Image, Modal, Icon,Form ,Divider} from 'semantic-ui-rea
 import "react-datepicker/dist/react-datepicker.css";
 import _ from 'lodash'
 
-
-const options = [
-  { key: 'A', text: 'A', value: 'A' },
-  { key: 'B', text: 'B', value: 'B' },
-  { key: 'C', text: 'C', value: 'C' },
-  { key: 'D', text: 'D', value: 'D' },
-  { key: 'E', text: 'E', value: 'E' },
-  { key: 'F', text: 'F', value: 'F' },
-  { key: 'G', text: 'G', value: 'G' },
-  { key: 'H', text: 'H', value: 'H' },
-  { key: 'I', text: 'I', value: 'I' },
-  { key: 'J', text: 'J', value: 'J' }
-]
-
 const teams = [
   { key: 'Women soccer', text: 'Women Soccer', value: 'Women soccer' },
   { key: 'Men soccer', text: 'Men Soccer', value: 'Men soccer' },
@@ -62,12 +48,19 @@ class ModalExampleDimmer extends Component {
     super(props);
     this.state = {
       open: false,
+      
       fields:[0],
-      exercises: [
-        {
-          exerciseName: 'Z trap', reps: '3', weight: '12',
-        }
-      ],
+      workout: {
+        workoutName: '',
+        team: '',
+        //date
+        exercises: [
+          {
+            exerciseName: 'Z trap', reps: '3', weight: '12',
+          }
+        ],
+      },
+
       exerciseName: '', reps: '', weight: '',
 
       submittedName: '', submittedExerciseName: '', submittedReps: '', submittedWeight: '',
@@ -75,7 +68,7 @@ class ModalExampleDimmer extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.addField = this.addField.bind(this);
   }
-  handleChange = (e, { name, value }) => this.setState({ [name]: value })
+  handleChange = (e , { name, value }) => this.setState({ [name]: value })
 
   addField = () => {
     console.log("called")
@@ -133,7 +126,7 @@ class ModalExampleDimmer extends Component {
           <Divider horizontal>Exercises</Divider>
 
           {this.state.fields.map((i) =>
-            <Line options={options} action={this.handleChange} state={this.state} loc={i}> </Line>
+            <Line action={this.handleChange} state={this.state} index={i}> </Line>
             )
           }
 
@@ -172,13 +165,13 @@ class Line extends Component {
   }
   render() {
     let clicked = false;
-    let last = this.props.state.fields[this.props.state.fields - 1] == this.props.loc
+    let last = this.props.state.fields[this.props.state.fields - 1] == this.props.index
     return (
       <Modal.Content image>
       <Form image >
         <Form.Group>
-          <label>{this.props.loc + 1}.</label>
-          <Form.Input name='exerciseName' value={this.props.state.exerciseName} onChange={this.props.action} label='Exercise Name' placeholder='Push Ups' />
+          <label>{this.props.index + 1}.</label>
+          <Form.Input name='exerciseName' value={this.props.state.exerciseName} onChange={this.props.action(this.props.index)} label='Exercise Name' placeholder='Push Ups' />
           <Form.Input name='reps' value={this.props.state.reps} onChange={this.props.action} label='Reps' placeholder='8x3' />
           <Form.Input name='weight' value={this.props.state.weight} onChange={this.props.action} label='Weight (lb)' placeholder='45' />
         </Form.Group>
