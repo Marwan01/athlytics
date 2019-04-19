@@ -23,7 +23,7 @@ class Calendar extends React.Component {
   }
 componentDidMount(){
   console.log(events[0])
-  //this.ciao()
+  this.ciao()
 }
   ciao = () =>{
     let token = JSON.parse(localStorage.getItem('authUser'))
