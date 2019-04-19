@@ -62,17 +62,21 @@ class ModalExampleDimmer extends Component {
     super(props);
     this.state = {
       open: false,
-
-      startDate: new Date()
+        block: '', exerciseName: '', reps: '', weight: '',
+      
+      submittedName: '', submittedExerciseName: '', submittedReps: '', submittedWeight: '',
     };
     this.handleChange = this.handleChange.bind(this);
   }
-  
+  handleChange = (e, { name, value }) => this.setState({ [name]: value })
 
-  handleChange(date) {
-    this.setState({
-      startDate: date
-    });
+  handleSubmit = () => {
+    const { block, exerciseName, reps, weight } = this.state
+
+    this.setState({ submittedName: block,
+      submittedExerciseName: exerciseName,
+      submittedReps:reps,
+      submittedWeight: weight})
   }
 
   
@@ -81,13 +85,12 @@ class ModalExampleDimmer extends Component {
 
   render() {
     const { open, dimmer } = this.state
+    const { block, exerciseName, reps, weight,
+      submittedName, submittedExerciseName, submittedReps, submittedWeight} = this.state
 
     return (
       <div>
         <Button onClick={this.show(true)}>Default</Button>
-        {/* <Button onClick={this.show('inverted')}>Inverted</Button>
-        <Button onClick={this.show('blurring')}>Blurring</Button> */}
-
         <Modal dimmer={dimmer} open={open} onClose={this.close}>
           <Modal.Header>
           <div className='image'>
@@ -102,7 +105,7 @@ class ModalExampleDimmer extends Component {
         <Form>
           <Form.Group>
           <Form.Input  label='Workout Name' onChange={(evt1) => { console.log(evt1.target.value); }} placeholder='Upper Body Workout' />
-          <Form.Select  onChange={() => { console.log("teamname"); }} label='Assign to' options={teams} placeholder='Block' />
+          <Form.Select  onChange={() => { console.log("teamname"); }} label='Assign to' options={teams} placeholder='Team' />
           </Form.Group>
          </Form>
           
@@ -111,22 +114,25 @@ class ModalExampleDimmer extends Component {
 
 
       <Modal.Content image>
-      <Form image>
+      <Form image onSubmit={this.handleSubmit}>
       <Form.Group>
         {/* FIX THE BLOCKVALUE TO GET SELECTED VALUE OF DROPDOWN MENU */}
-        <Form.Select  onChange={() => { console.log("blockvalue"); }} label='Block' options={options} placeholder='Block' />
-        <Form.Input  onChange={(evt) => { console.log(evt.target.value); }} label='Exercise Name' placeholder='Push Ups' />
-        <Form.Input  onChange={(evt) => { console.log(evt.target.value); }}label='Reps' placeholder='8x3' />
-       <Form.Input  onChange={(evt) => { console.log(evt.target.value); }}label='Weight (lb)' placeholder='45' />
+        <Form.Select  name = 'block' value={block} onChange={this.handleChange}  label='Block' options={options} placeholder='Block' />
+        <Form.Input  name = 'exerciseName' value={exerciseName} onChange={this.handleChange} label='Exercise Name' placeholder='Push Ups' />
+        <Form.Input  name = 'reps'  value={reps} onChange={this.handleChange} label='Reps' placeholder='8x3' />
+       <Form.Input  name = 'weight' value={weight} onChange={this.handleChange} label='Weight (lb)' placeholder='45' />
+       <Form.Button content='Save' />
      </Form.Group>
-  </Form>
-</Modal.Content>
-<Modal.Content image>
-<Button icon><Icon name='plus' /></Button>
-</Modal.Content>
+    </Form>
+    </Modal.Content>
+    <Modal.Content image>
+    <Button icon><Icon name='plus' /></Button>
+    </Modal.Content>
 
-
-
+    <strong>onChange:</strong>
+        <pre>{JSON.stringify({ block, exerciseName, reps, weight }, null, 2)}</pre>
+        <strong>onSubmit:</strong>
+        <pre>{JSON.stringify({ submittedName, submittedExerciseName, submittedReps, submittedWeight}, null, 2)}</pre>
 
           <Modal.Actions>
             <Button color='black' onClick={this.close}>
