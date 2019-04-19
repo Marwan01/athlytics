@@ -21,7 +21,7 @@ const Navigation = () => (
 );
 
 const NavigationAuth = ({ authUser }) => (
-  <Menu pointing secondary>
+  <Menu pointing secondary fluid size='huge'>
     <Container>
       <Menu.Item name="Landing" as={Link} to={ROUTES.LANDING} />
       <Menu.Item name="home" as={Link} to={ROUTES.HOME} />
