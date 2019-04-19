@@ -23,9 +23,9 @@ class Calendar extends React.Component {
   }
 componentDidMount(){
   console.log(events[0])
-  this.ciao()
+  this.getEvents()
 }
-  ciao = () =>{
+  getEvents = () =>{
     let token = JSON.parse(localStorage.getItem('authUser'))
     this.props.firebase.user(token.uid)
     .once('value')
