@@ -68,7 +68,11 @@ class ModalExampleDimmer extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.addField = this.addField.bind(this);
   }
-  handleChange = (e , { name, value }) => this.setState({ [name]: value })
+  handleChange = (i,event) => {
+    console.log(i)
+  let a = [event.target.name]
+    console.log(a)
+    this.setState({ [event.target.name]: event.target.value })}
 
   addField = () => {
     console.log("called")
@@ -171,9 +175,9 @@ class Line extends Component {
       <Form image >
         <Form.Group>
           <label>{this.props.index + 1}.</label>
-          <Form.Input name='exerciseName' value={this.props.state.exerciseName} onChange={this.props.action(this.props.index)} label='Exercise Name' placeholder='Push Ups' />
-          <Form.Input name='reps' value={this.props.state.reps} onChange={this.props.action} label='Reps' placeholder='8x3' />
-          <Form.Input name='weight' value={this.props.state.weight} onChange={this.props.action} label='Weight (lb)' placeholder='45' />
+          <Form.Input name='exerciseName' value={this.props.state.exerciseName} onChange={(e) => this.props.action(this.props.index, e)} label='Exercise Name' placeholder='Push Ups' />
+          <Form.Input name='reps' value={this.props.state.reps} onChange={(e) => this.props.action(this.props.index, e)} label='Reps' placeholder='8x3' />
+          <Form.Input name='weight' value={this.props.state.weight} onChange={(e) => this.props.action(this.props.index, e)} label='Weight (lb)' placeholder='45' />
         </Form.Group>
       </Form>
     </Modal.Content>
