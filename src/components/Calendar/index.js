@@ -6,12 +6,9 @@ import * as ROLES from '../../constants/roles';
 import { withAuthorization, withEmailVerification,AuthUserContext } from '../Session';
 import BigCalendar from 'react-big-calendar'
 import moment from 'moment'
-import events from './events'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Button, Header, Image, Modal, Icon, Form, Divider } from 'semantic-ui-react'
 
-
-//fmkdfjklnglekdjmlefg.agnrfjr
 const teams = [
   { key: 'Women soccer', text: 'Women Soccer', value: 'Women soccer' },
   { key: 'Men soccer', text: 'Men Soccer', value: 'Men soccer' },
@@ -55,7 +52,7 @@ class Calendar extends React.Component {
     this.state = {
       open: false,
 
-      events:events,
+      events:[],
       fields: [0],
 
       workout: {
@@ -76,10 +73,9 @@ class Calendar extends React.Component {
     this.addField = this.addField.bind(this);
   }
 componentDidMount(){
-  console.log(events[0])
-  this.ciao()
+  this.getEvents()
 }
-  ciao = () =>{
+  getEvents = () =>{
     let token = JSON.parse(localStorage.getItem('authUser'))
     this.props.firebase.user(token.uid)
     .once('value')
@@ -88,16 +84,11 @@ componentDidMount(){
       let w = dbUser.workouts
       if (w){
         var newArrayDataOfOjbect = Object.values(w)
-        console.log(newArrayDataOfOjbect)
         newArrayDataOfOjbect.forEach(function(element) {
           element.end = new Date(element.end)
           element.start = new Date(element.start)
           
         });
-        console.log(newArrayDataOfOjbect)
-  
-      // console.log(myData)
-  
         this.setState({events: newArrayDataOfOjbect})
       }
 
@@ -107,55 +98,19 @@ componentDidMount(){
   }
 
   handleSelect = ({ start, end }) => {
-    // const title = window.prompt('New Event name')
-    // if (title)
-    //   this.setState({
-    //     events: [
-    //       ...this.state.events,
-    //       {
-    //         start,
-    //         end,
-    //         title,
-    //       },
-    //     ],
-    //   })
     let workout_copy = this.state.workout
     workout_copy['start']= start.toString()
     workout_copy['end']= end.toString()
     this.setState({open:true})
     this.setState({workout:workout_copy})
-
-
   }
 
   addWorkout = (uid) => {
-    // let workout = {
-    //   title: 'test2',
-    //   start: "April 19, 2019 11:00:00",
-    //   end: "April 19, 2019 19:30:00",
-    //   exercises: [
-    //     {
-    //       name: "curls",
-    //       reps: "25",
-    //       weight: '20lb'
-    //     }, {
-    //       name: "squats",
-    //       reps: "4",
-    //       weight: '200lb'
-    //     }
-    //   ]
-    // }
     let workout = this.state.workout
-    console.log(workout)
-
     //DATE DOES NOT GET SEND
     let ui = workout.workoutName + workout.start
-
-    // workouts.push(workout[0])
-    console.log(uid)
     this.props.firebase.user_workout(uid, ui).set(workout)
     
-
   }
 
   getStudentsBySport = () => {
@@ -172,18 +127,12 @@ componentDidMount(){
         for (var i = 0; i < newArrayDataOfOjbect.length - 1; i++) {
           let user = newArrayDataOfOjbect[i]
           if (user.sport == this.state.workout.sport) {
-            console.log("match")
             uids_to_update.push(keys[i])
           }
         }
-        console.log(uids_to_update)
         uids_to_update.map(uid => {
           this.addWorkout(uid)
         })
-
-        // for (var i = 0; i < uids_to_update.length-1; i++) {
-        //   this.addWorkout(uids_to_update[i])
-        // }
         this.setState({ open: !this.state.open })
       });
   }
@@ -217,7 +166,6 @@ componentDidMount(){
 
   show = dimmer => () => this.setState({ dimmer, open: true })
   close = () => this.setState({ open: !this.state.open })
-  // confirm = () => this.setState({ workout: {} })
 
 
   render() {
@@ -300,10 +248,8 @@ componentDidMount(){
   }
 }
 
-
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.
-
 
 class Line extends React.Component {
   render() {
