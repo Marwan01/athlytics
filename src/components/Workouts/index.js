@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Divider, Image, Button  } from 'semantic-ui-react'
+import { Table, Divider, Image, Button } from 'semantic-ui-react'
 import { compose } from 'recompose';
 import { withAuthorization, withEmailVerification, AuthUserContext } from '../Session';
 import dateFormat from 'dateformat'
@@ -10,13 +10,14 @@ class Workouts extends Component {
 
   constructor(...props) {
     super(...props)
-    this.state={
-      events:[]
+    this.state = {
+      events: []
     }
   }
 
   componentWillMount() {
-    this.getEvents()    
+    this.getEvents()
+    
   }
 
   getEvents = () => {
@@ -46,8 +47,8 @@ class Workouts extends Component {
       <AuthUserContext.Consumer>
         {authUser => (
           <div>
-            {this.state.events.map((workout_obj) => 
-              <TableExampleInverted eventToDisplay={workout_obj} />
+            {this.state.events.map((workout_obj) =>
+              <TableExampleInverted eventToDisplay={workout_obj} user={authUser} firebase={this.props.firebase}/>
             )}
 
           </div>)}
@@ -62,18 +63,47 @@ const condition = authUser =>
   authUser;
 
 
-  class TableExampleInverted extends React.Component {
-    constructor(...props) {
-      super(...props)
-    }
-    render() {
-      let workout = this.props.eventToDisplay
-      let exercises = workout.exercises
-      return (
-        <div style={{padding:'2vh', marginBottom:'2vh'}}>
-        <Divider horizontal>{dateFormat(new Date(workout.start), " mmmm dS, yyyy")}</Divider>
-        <Divider horizontal>{workout.workoutName + "-"+ workout.sport}</Divider>
+class TableExampleInverted extends Component {
+  constructor(...props) {
+    super(...props)
+  }
 
+  onDelete = () => {
+    let w_uid = this.props.eventToDisplay.workoutName + this.props.eventToDisplay.start
+    this.props.firebase
+      .users()
+      .on('value', snapshot => {
+        const users = snapshot.val();
+        let newArrayDataOfOjbect = Object.values(users)
+        let uids_to_update = [this.props.user.uid]
+        let keys = Object.keys(users)
+
+        for (var i = 0; i < newArrayDataOfOjbect.length ; i++) {
+          let user = newArrayDataOfOjbect[i]
+          console.log(user)
+
+          // if(user.workouts){
+          //   console.log(user)
+          // }
+          
+
+        }
+        // uids_to_update.map(uid => {
+        //   this.addWorkout(uid,this.update)
+        // })
+      })
+
+    // this.setState({ open: false })
+
+  }
+  render() {
+    let workout = this.props.eventToDisplay
+    let exercises = workout.exercises
+    let w_uid = workout.workoutName + workout.start
+    return (
+      <div style={{ padding: '2vh', marginBottom: '2vh' }}>
+        <Divider horizontal>{dateFormat(new Date(workout.start), " mmmm dS, yyyy")}</Divider>
+        <Divider horizontal>{workout.workoutName + "-" + workout.sport}</Divider>
         <Table>
           <Table.Header>
             <Table.Row>
@@ -81,39 +111,40 @@ const condition = authUser =>
               <Table.HeaderCell width={5}>Exercise</Table.HeaderCell>
               <Table.HeaderCell width={5}>Repetition</Table.HeaderCell>
               <Table.HeaderCell width={5}>Weight (lb)</Table.HeaderCell>
-              <Table.HeaderCell><Button icon='trash' color='red'></Button></Table.HeaderCell>
+              <Table.HeaderCell><Button icon='trash' color='red' onClick={(e) => this.onDelete()} /></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-          {exercises.map((ex,index) => 
-            <RowItem exercises={ex} index={index}/>
+          {exercises.map((ex, index) =>
+            <RowItem exercises={ex} index={index} />
           )}
         </Table>
-        
-        </div>
-      )
-    }
+
+      </div>
+    )
+  }
+}
+withEmailVerification(TableExampleInverted);
+
+class RowItem extends React.Component {
+  constructor(...props) {
+    super(...props)
   }
 
-  class RowItem extends React.Component {
-    constructor(...props) {
-      super(...props)
-    }
-  
-    render() {
-      let exercises = this.props.exercises
-      let index = this.props.index
-      return (
-          <Table.Body>
-            <Table.Row>
-              <Table.Cell>{index+1}</Table.Cell>
-              <Table.Cell>{exercises.exerciseName}</Table.Cell>
-              <Table.Cell>{exercises.reps}</Table.Cell>
-              <Table.Cell>{exercises.weight}</Table.Cell>
-            </Table.Row>
-          </Table.Body>
-      )
-    }
+  render() {
+    let exercises = this.props.exercises
+    let index = this.props.index
+    return (
+      <Table.Body>
+        <Table.Row>
+          <Table.Cell>{index + 1}</Table.Cell>
+          <Table.Cell>{exercises.exerciseName}</Table.Cell>
+          <Table.Cell>{exercises.reps}</Table.Cell>
+          <Table.Cell>{exercises.weight}</Table.Cell>
+        </Table.Row>
+      </Table.Body>
+    )
   }
+}
 
 export default compose(
   withEmailVerification,
