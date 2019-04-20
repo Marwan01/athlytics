@@ -12,9 +12,7 @@ import {
   Form,
   Button,
   Header,
-  Icon,
   Message,
-  Divider,
 } from 'semantic-ui-react';
 
 const SignInPage = () => (

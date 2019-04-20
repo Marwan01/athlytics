@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
-import { Table, Divider, Image } from 'semantic-ui-react'
+import { Table, Divider, Image, Button  } from 'semantic-ui-react'
 import { compose } from 'recompose';
 import { withAuthorization, withEmailVerification, AuthUserContext } from '../Session';
-import { auth } from 'firebase';
 import dateFormat from 'dateformat'
 
 
@@ -82,6 +81,7 @@ const condition = authUser =>
               <Table.HeaderCell width={5}>Exercise</Table.HeaderCell>
               <Table.HeaderCell width={5}>Repetition</Table.HeaderCell>
               <Table.HeaderCell width={5}>Weight (lb)</Table.HeaderCell>
+              <Table.HeaderCell><Button icon='trash' color='red'></Button></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           {exercises.map((ex,index) => 
