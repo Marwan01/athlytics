@@ -69,14 +69,18 @@ class Calendar extends React.Component {
       }
 
     };
+    this.update = this.update.bind(this);
+
     this.handleChange = this.handleChange.bind(this);
     this.addWorkout = this.addWorkout.bind(this);
     this.addField = this.addField.bind(this);
+    this.getEvents = this.getEvents.bind(this);
   }
 componentDidMount(){
   this.getEvents()
 }
   getEvents = () =>{
+    console.log("fetch events")
     let token = JSON.parse(localStorage.getItem('authUser'))
     this.props.firebase.user(token.uid)
     .once('value')
@@ -91,9 +95,8 @@ componentDidMount(){
           
         });
         this.setState({events: newArrayDataOfOjbect})
+        console.log(this.state.events)
       }
-
-
     });
 
   }
@@ -106,23 +109,23 @@ componentDidMount(){
     this.setState({workout:workout_copy})
   }
 
-  addWorkout = (uid) => {
+  addWorkout = (uid, update) => {
     let workout = this.state.workout
     //DATE DOES NOT GET SEND
     let ui = workout.workoutName + workout.start
     this.props.firebase.user_workout(uid, ui).set(workout)
-    
+    update()
   }
 
   getStudentsBySport = () => {
-
+    let token = JSON.parse(localStorage.getItem('authUser'))
     this.props.firebase
       .users()
       .on('value', snapshot => {
         const users = snapshot.val();
         let newArrayDataOfOjbect = Object.values(users)
         let local_sport = "Women soccer"
-        let uids_to_update = []
+        let uids_to_update = [token.uid]
         let keys = Object.keys(users)
 
         for (var i = 0; i < newArrayDataOfOjbect.length - 1; i++) {
@@ -132,10 +135,15 @@ componentDidMount(){
           }
         }
         uids_to_update.map(uid => {
-          this.addWorkout(uid)
+          this.addWorkout(uid,this.update)
         })
-        this.setState({ open: !this.state.open })
-      });
+      })
+
+      this.setState({ open: false })
+  }
+
+  update = ()=> {
+    this.props.history.push(ROUTES.WORKOUTS)
   }
 
 
@@ -194,7 +202,7 @@ componentDidMount(){
           defaultView={BigCalendar.Views.WEEK}
           scrollToTime={new Date(1970, 1, 1, 6)}
           defaultDate={new Date(2019, 3, 12)}
-          onSelectEvent={event => alert(event.title)}
+          onSelectEvent={event => this.props.history.push(ROUTES.WORKOUTS)}
           onSelectSlot={this.handleSelect}
         />
               <div>
