@@ -3,6 +3,7 @@ import { Table, Divider, Image } from 'semantic-ui-react'
 import { compose } from 'recompose';
 import { withAuthorization, withEmailVerification, AuthUserContext } from '../Session';
 import { auth } from 'firebase';
+import dateFormat from 'dateformat'
 
 
 
@@ -71,7 +72,7 @@ const condition = authUser =>
       let exercises = workout.exercises
       return (
         <div>
-        <Divider horizontal>{workout.workoutName}</Divider>
+        <Divider horizontal>{workout.workoutName + "-"+ workout.sport+"-"+dateFormat(new Date(workout.start), " mmmm dS, yyyy")}</Divider>
         <Table>
           <Table.Header>
             <Table.Row>
