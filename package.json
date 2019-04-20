@@ -7,6 +7,7 @@
     "dateformat": "^3.0.3",
     "firebase": "^5.6.0",
     "firebase-admin": "^7.3.0",
+    "gh-pages": "^2.0.1",
     "http2": "^3.3.7",
     "moment": "^2.24.0",
     "react": "^16.6.3",
@@ -25,6 +26,7 @@
     "test": "react-scripts test --env=jsdom --passWithNoTests",
     "eject": "react-scripts eject"
   },
+  "homepage": "https://marwan01.github.io/Athlytics",
   "browserslist": [
     ">0.2%",
     "not dead",
