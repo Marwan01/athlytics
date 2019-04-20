@@ -11,7 +11,8 @@ import {
   Header,
   Message,
   Checkbox,
-  Dropdown
+  Dropdown,
+  Divider
 } from 'semantic-ui-react';
 
 const SignUpPage = () => (
@@ -271,9 +272,15 @@ else{
 }
 
 const SignUpLink = () => (
-  <p>
-    Don't have an account? <Link to={ROUTES.SIGN_UP}>Sign Up</Link>
+  <div>
+    <br></br>
+    <Divider horizontal>Or</Divider>
+      <p>
+    Don't have an account? 
   </p>
+  <Link to={ROUTES.SIGN_UP}><Button>Sign Up</Button></Link>
+  </div>
+
 );
 
 const SignUpForm = withRouter(withFirebase(SignUpFormBase));
