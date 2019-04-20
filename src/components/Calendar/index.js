@@ -1,7 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
 import { compose } from 'recompose';
-import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import { withAuthorization, withEmailVerification,AuthUserContext } from '../Session';
 import BigCalendar from 'react-big-calendar'
@@ -12,17 +10,14 @@ import {
   Header,
 } from 'semantic-ui-react';
 
-//fmkdfjklnglekdjmlefg.agnrfjr
-
-
 class Calendar extends React.Component {
   constructor(...props) {
     super(...props)
 
-    this.state = { events }
+    this.state = { events,
   }
+}
 componentDidMount(){
-  console.log(events[0])
   this.getEvents()
 }
   getEvents = () =>{
@@ -34,20 +29,13 @@ componentDidMount(){
       let w = dbUser.workouts
       if (w){
         var newArrayDataOfOjbect = Object.values(w)
-        console.log(newArrayDataOfOjbect)
         newArrayDataOfOjbect.forEach(function(element) {
           element.end = new Date(element.end)
           element.start = new Date(element.start)
           
         });
-        console.log(newArrayDataOfOjbect)
-  
-      // console.log(myData)
-  
         this.setState({events: newArrayDataOfOjbect})
       }
-
-
     });
 
   }
@@ -73,17 +61,17 @@ componentDidMount(){
           <AuthUserContext.Consumer>
     {authUser => (
       <div style={{height:'750px'}}>
-        <Header as="h2">Account: {authUser.email}</Header>
+        <Header as="h2">{authUser.username}'s Calendar</Header>
       <BigCalendar
           selectable
           localizer={localizer}
           startAccessor="start"
           endAccessor="end"
           events={this.state.events}
-          defaultView={BigCalendar.Views.WEEK}
+          defaultView={BigCalendar.Views.AGENDA}
           scrollToTime={new Date(1970, 1, 1, 6)}
           defaultDate={new Date(2019, 3, 12)}
-          onSelectEvent={event => alert(event.title)}
+          onSelectEvent={event => alert(event.title)} 
           onSelectSlot={this.handleSelect}
         />
       </div>
