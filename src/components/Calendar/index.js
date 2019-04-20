@@ -1,7 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
 import { compose } from 'recompose';
-import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import { withAuthorization, withEmailVerification, AuthUserContext } from '../Session';
 import BigCalendar from 'react-big-calendar'
@@ -13,14 +11,11 @@ import {
   Button
 } from 'semantic-ui-react';
 
-//fmkdfjklnglekdjmlefg.agnrfjr
-
-
 class Calendar extends React.Component {
   constructor(...props) {
     super(...props)
 
-    this.state = { events }
+    this.state = { events,
   }
   componentDidMount() {
     console.log(events[0])
