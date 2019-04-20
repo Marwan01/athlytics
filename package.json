@@ -26,7 +26,6 @@
     "test": "react-scripts test --env=jsdom --passWithNoTests",
     "eject": "react-scripts eject"
   },
-  "homepage": "https://marwan01.github.io/Athlytics",
   "browserslist": [
     ">0.2%",
     "not dead",
