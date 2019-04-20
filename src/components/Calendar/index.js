@@ -77,7 +77,7 @@ class Calendar extends React.Component {
   }
 componentDidMount(){
   console.log(events[0])
-  //this.ciao()
+  this.ciao()
 }
   ciao = () =>{
     let token = JSON.parse(localStorage.getItem('authUser'))
@@ -227,10 +227,12 @@ componentDidMount(){
     {authUser => (
       <div style={{height:'750px'}}>
         <Header as="h2">Account: {authUser.email}</Header>
+        <Header as="h2">Sport: {authUser.sport}</Header>
       <BigCalendar
           selectable
           localizer={localizer}
           startAccessor="start"
+          titleAccessor="workoutName"
           endAccessor="end"
           events={this.state.events}
           defaultView={BigCalendar.Views.WEEK}
@@ -244,7 +246,7 @@ componentDidMount(){
           <Modal.Header>
             <div className='image'>
               <Icon name='trophy' />
-              Create and assign a new workout for "mm/dd/yyyy and given time(display here)"
+              <h1> Create and assign a new workout for {this.state.workout.start}</h1>
             </div>
           </Modal.Header>
           <Modal.Content image>
