@@ -41,16 +41,14 @@ const teams = [
 ]
 
 
-
-
 class ModalExampleDimmer extends Component {
   constructor(props) {
 
     super(props);
     this.state = {
-      open: false,
-
+      open: true,
       fields: [0],
+
       workout: {
         workoutName: '',
         team: '',
@@ -60,11 +58,8 @@ class ModalExampleDimmer extends Component {
             exerciseName: '', reps: '', weight: '',
           }
         ],
-      },
+      }
 
-      exerciseName: '', reps: '', weight: '',
-
-      submittedName: '', submittedExerciseName: '', submittedReps: '', submittedWeight: '',
     };
     this.handleChange = this.handleChange.bind(this);
     this.addWorkout = this.addWorkout.bind(this);
@@ -99,31 +94,31 @@ class ModalExampleDimmer extends Component {
   getStudentsBySport = () => {
 
     this.props.firebase
-    .users()
-    .on('value', snapshot => {
-      const users = snapshot.val();
-      let  newArrayDataOfOjbect = Object.values(users)
-      let local_sport = "Women soccer"
-      let uids_to_update=[]
-      let  keys = Object.keys(users)
+      .users()
+      .on('value', snapshot => {
+        const users = snapshot.val();
+        let newArrayDataOfOjbect = Object.values(users)
+        let local_sport = "Women soccer"
+        let uids_to_update = []
+        let keys = Object.keys(users)
 
-      for (var i = 0; i < newArrayDataOfOjbect.length-1; i++) {
-        let user = newArrayDataOfOjbect[i]
-        if(user.sport == local_sport){
-          console.log("match")
-          uids_to_update.push(keys[i])
+        for (var i = 0; i < newArrayDataOfOjbect.length - 1; i++) {
+          let user = newArrayDataOfOjbect[i]
+          if (user.sport == local_sport) {
+            console.log("match")
+            uids_to_update.push(keys[i])
+          }
         }
-      }
-      console.log(uids_to_update)
-      uids_to_update.map(uid => {
-        this.addWorkout(uid)
-      } )
-      
-      // for (var i = 0; i < uids_to_update.length-1; i++) {
-      //   this.addWorkout(uids_to_update[i])
-      // }
+        console.log(uids_to_update)
+        uids_to_update.map(uid => {
+          this.addWorkout(uid)
+        })
 
-    });
+        // for (var i = 0; i < uids_to_update.length-1; i++) {
+        //   this.addWorkout(uids_to_update[i])
+        // }
+
+      });
   }
 
 
@@ -131,7 +126,7 @@ class ModalExampleDimmer extends Component {
     let field_to_change = event.target.name
     let workout_copy = this.state.workout
     workout_copy.exercises[exercise_index][field_to_change] = event.target.value
-    this.setState({ workout: workout_copy})
+    this.setState({ workout: workout_copy })
   }
 
   addField = () => {
@@ -153,24 +148,21 @@ class ModalExampleDimmer extends Component {
     });
   };
 
-
-
   show = dimmer => () => this.setState({ dimmer, open: true })
-  close = () => this.setState({ open: !this.state.open})
+  close = () => this.setState({ open: !this.state.open })
   // confirm = () => this.setState({ workout: {} })
 
   render() {
-    const { open, dimmer } = this.state
+    const { open } = this.state
 
     return (
       <div>
-        <Button onClick={this.show(true)}>Default</Button>
-        <Modal dimmer={dimmer} open={open} onClose={this.close}>
+        <Modal open={open} onClose={this.close}>
           <Modal.Header>
             <div className='image'>
               <Icon name='trophy' />
               Create and assign a new workout for "mm/dd/yyyy and given time(display here)"
-    </div>
+            </div>
           </Modal.Header>
           <Modal.Content image>
             <Image wrapped size='small' src={require('./../../img/exercise.png')} />
@@ -212,7 +204,6 @@ class ModalExampleDimmer extends Component {
     )
   }
 }
-
 
 class Line extends Component {
   render() {
