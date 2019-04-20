@@ -136,7 +136,7 @@ class ModalExampleDimmer extends Component {
               <Form>
                 <Form.Group>
                   <Form.Input label='Workout Name' onChange={(evt1) => { console.log(evt1.target.value); }} placeholder='Upper Body Workout' />
-                  <Form.Select onChange={(e) => { console.log(e.target); }} label='Assign to' options={teams} placeholder='Team' />
+                  <Form.Select onChange={(e) => { console.log(e.target.value); }} label='Assign to' options={teams} placeholder='Team' />
                 </Form.Group>
               </Form>
 
