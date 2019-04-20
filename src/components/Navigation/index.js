@@ -23,7 +23,6 @@ const Navigation = () => (
 const NavigationAuth = ({ authUser }) => (
   <Menu pointing secondary fluid size='huge'>
     <Container>
-      <Menu.Item name="Landing" as={Link} to={ROUTES.LANDING} />
       <Menu.Item icon='home' name="home" as={Link} to={ROUTES.HOME} />
       <Menu.Item icon='settings' name="Account" as={Link} to={ROUTES.ACCOUNT} />
       {authUser.roles.includes(ROLES.ADMIN) && (

@@ -154,6 +154,8 @@ componentDidMount(){
     // workouts.push(workout[0])
     console.log(uid)
     this.props.firebase.user_workout(uid, ui).set(workout)
+    
+
   }
 
   getStudentsBySport = () => {
@@ -182,7 +184,7 @@ componentDidMount(){
         // for (var i = 0; i < uids_to_update.length-1; i++) {
         //   this.addWorkout(uids_to_update[i])
         // }
-
+        this.setState({ open: !this.state.open })
       });
   }
 
