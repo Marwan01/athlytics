@@ -90,6 +90,7 @@ componentDidMount(){
       if (w){
         var newArrayDataOfOjbect = Object.values(w)
         newArrayDataOfOjbect.forEach(function(element) {
+          element.workoutName = element.workoutName+ "-"+element.sport
           element.end = new Date(element.end)
           element.start = new Date(element.start)
           
