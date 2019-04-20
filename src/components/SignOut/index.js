@@ -6,7 +6,7 @@ import { Menu } from 'semantic-ui-react';
 
 const SignOutButton = ({ firebase }) => (
   <Menu.Menu position="right">
-    <Menu.Item name="Logout" onClick={firebase.doSignOut} />
+    <Menu.Item icon='log out' name="Logout" onClick={firebase.doSignOut} />
   </Menu.Menu>
 );
 

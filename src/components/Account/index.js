@@ -29,8 +29,8 @@ const SIGN_IN_METHODS = [
 const AccountPage = () => (
   <AuthUserContext.Consumer>
     {authUser => (
-      <div>
-        <Header as="h2">Account: {authUser.email}</Header>
+      <div style={{padding:'5vh'}}>
+        <Header as="h2">{authUser.username}'s Account</Header>
         <Grid columns={2}>
           <Grid.Column>
             <Card fluid={true}>

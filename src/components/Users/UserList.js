@@ -50,7 +50,6 @@ class UserList extends Component {
           <Table singleLine>
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>ID</Table.HeaderCell>
                 <Table.HeaderCell>Username</Table.HeaderCell>
                 <Table.HeaderCell>Email Address</Table.HeaderCell>
                 <Table.HeaderCell>Sport</Table.HeaderCell>
@@ -60,7 +59,6 @@ class UserList extends Component {
             <Table.Body>
               {users.map((user, i) => (
                 <Table.Row key={i}>
-                  <Table.Cell>{user.uid}</Table.Cell>
                   <Table.Cell>{user.username}</Table.Cell>
                   <Table.Cell>{user.email}</Table.Cell>
                   <Table.Cell>{user.sport}</Table.Cell>

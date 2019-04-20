@@ -2,6 +2,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
+
 const config = {
 apiKey: "AIzaSyCGmvE7wqlcK4Qt36tFtAlb_WHFB_3S_nw",
     authDomain: "athlytics5g.firebaseapp.com",
@@ -58,10 +59,10 @@ class Firebase {
       url: "http://localhost:3000",
     });
 
-  doPasswordUpdate = password =>
+    doPasswordUpdate = password =>
     this.auth.currentUser.updatePassword(password);
 
-  // *** Merge Auth and DB User API *** //
+// *** Merge Auth and DB User API *** //
 
   onAuthUserListener = (next, fallback) =>
     this.auth.onAuthStateChanged(authUser => {
@@ -99,6 +100,8 @@ class Firebase {
   users = () => this.db.ref('users');
 
   // *** Message API ***
+
+  user_workout = (uid,ui) => this.db.ref(`users/${uid}/workouts/${ui}`);
 
   message = uid => this.db.ref(`messages/${uid}`);
 
