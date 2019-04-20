@@ -29,7 +29,7 @@ const SIGN_IN_METHODS = [
 const AccountPage = () => (
   <AuthUserContext.Consumer>
     {authUser => (
-      <div style={{height:'750px', padding:'5vh'}}>
+      <div style={{padding:'5vh'}}>
         <Header as="h2">{authUser.username}'s Account</Header>
         <Grid columns={2}>
           <Grid.Column>

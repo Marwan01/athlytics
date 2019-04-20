@@ -108,8 +108,10 @@ class SignInFormBase extends Component {
           <Button primary disabled={isInvalid} type="submit">
             Submit
           </Button>
-          <PasswordForgetLink />
+          
         </Form>
+        <br></br>
+        <PasswordForgetLink />
       </div>
     );
   }
