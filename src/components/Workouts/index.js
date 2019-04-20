@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import { Table, Divider, Image } from 'semantic-ui-react'
+import { compose } from 'recompose';
+import { withAuthorization, withEmailVerification,AuthUserContext } from '../Session';
+
 
 
 class Workouts extends Component {
@@ -53,4 +56,11 @@ const TableExampleInverted = () => (
   
 )
 
-export default Workouts
+const condition = authUser =>
+  authUser;
+
+
+export default compose(
+  withEmailVerification,
+  withAuthorization(condition),
+)(Workouts);
