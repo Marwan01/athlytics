@@ -10,7 +10,7 @@ import * as ROUTES from '../../constants/routes';
 import { Header } from 'semantic-ui-react';
 
 const AdminPage = () => (
-  <div>
+  <div style={{height:'750px', padding:'5vh'}}>
     <Header as="h2">Admin</Header>
     <p>The Admin Page is accessible by every signed in admin user.</p>
 

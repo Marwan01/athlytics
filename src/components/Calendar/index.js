@@ -5,6 +5,7 @@ import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 import { withAuthorization, withEmailVerification,AuthUserContext } from '../Session';
 import BigCalendar from 'react-big-calendar'
+import dateFormat from 'dateformat'
 import moment from 'moment'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Button, Header, Image, Modal, Icon, Form, Divider } from 'semantic-ui-react'
@@ -169,20 +170,27 @@ componentDidMount(){
 
 
   render() {
+
     const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
     return (
           <AuthUserContext.Consumer>
     {authUser => (
-      <div style={{height:'750px'}}>
-        <Header as="h2">Account: {authUser.email}</Header>
-        <Header as="h2">Sport: {authUser.sport}</Header>
+      <div style={{height:'750px', padding:'5vh'}}>
+        <Header as="h2">{authUser.username}'s Calendar</Header>
+        {!authUser.roles.includes(ROLES.ADMIN) &&
+          <Header as="h2">Sport: {authUser.sport}</Header>
+        }
+        
       <BigCalendar
           selectable
           localizer={localizer}
           startAccessor="start"
           titleAccessor="workoutName"
           endAccessor="end"
+          timeslots={8}
+          step={15}
           events={this.state.events}
+          views={['month', 'week', 'day']}
           defaultView={BigCalendar.Views.WEEK}
           scrollToTime={new Date(1970, 1, 1, 6)}
           defaultDate={new Date(2019, 3, 12)}
@@ -193,8 +201,10 @@ componentDidMount(){
         <Modal open={this.state.open} onClose={this.close}>
           <Modal.Header>
             <div className='image'>
-              <Icon name='trophy' />
-              <h1> Create and assign a new workout for {this.state.workout.start}</h1>
+              
+              <h1><Icon name='trophy' /> Assign a New Workout On: {dateFormat(new Date(this.state.workout.start), "dddd, mmmm dS, yyyy")}
+              </h1>
+              <h2>From: {dateFormat(new Date(this.state.workout.start), "h:MM TT")} Until: {dateFormat(new Date(this.state.workout.end), "h:MM TT")}</h2>
             </div>
           </Modal.Header>
           <Modal.Content image>
