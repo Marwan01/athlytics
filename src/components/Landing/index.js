@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Button, Header, Image, Modal, Icon, Form, Divider } from 'semantic-ui-react'
 import "react-datepicker/dist/react-datepicker.css";
 import _ from 'lodash'
+import { withFirebase } from '../Firebase';
 
 const teams = [
   { key: 'Women soccer', text: 'Women Soccer', value: 'Women soccer' },
@@ -66,18 +67,70 @@ class ModalExampleDimmer extends Component {
       submittedName: '', submittedExerciseName: '', submittedReps: '', submittedWeight: '',
     };
     this.handleChange = this.handleChange.bind(this);
+    this.addWorkout = this.addWorkout.bind(this);
     this.addField = this.addField.bind(this);
   }
+  addWorkout = (uid) => {
+    let workout = {
+      title: 'test2',
+      start: "April 19, 2019 11:00:00",
+      end: "April 19, 2019 19:30:00",
+      exercises: [
+        {
+          name: "curls",
+          reps: "25",
+          weight: '20lb'
+        }, {
+          name: "squats",
+          reps: "4",
+          weight: '200lb'
+        }
+      ]
+    }
+
+    //DATE DOES NOT GET SEND
+    let ui = workout.title + workout.start
+
+    // workouts.push(workout[0])
+    console.log(uid)
+    this.props.firebase.user_workout(uid, ui).set(workout)
+  }
+
+  getStudentsBySport = () => {
+
+    this.props.firebase
+    .users()
+    .on('value', snapshot => {
+      const users = snapshot.val();
+      let  newArrayDataOfOjbect = Object.values(users)
+      let local_sport = "Women soccer"
+      let uids_to_update=[]
+      let  keys = Object.keys(users)
+
+      for (var i = 0; i < newArrayDataOfOjbect.length-1; i++) {
+        let user = newArrayDataOfOjbect[i]
+        if(user.sport == local_sport){
+          console.log("match")
+          uids_to_update.push(keys[i])
+        }
+      }
+      console.log(uids_to_update)
+      uids_to_update.map(uid => {
+        this.addWorkout(uid)
+      } )
+      
+      // for (var i = 0; i < uids_to_update.length-1; i++) {
+      //   this.addWorkout(uids_to_update[i])
+      // }
+
+    });
+  }
+
+
   handleChange = (exercise_index, event) => {
-    
     let field_to_change = event.target.name
-
     let workout_copy = this.state.workout
-
     workout_copy.exercises[exercise_index][field_to_change] = event.target.value
-
-
-
     this.setState({ workout: workout_copy})
   }
 
@@ -100,15 +153,6 @@ class ModalExampleDimmer extends Component {
     });
   };
 
-  handleSubmit = () => {
-    const { exerciseName, reps, weight } = this.state
-
-    this.setState({
-      submittedExerciseName: exerciseName,
-      submittedReps: reps,
-      submittedWeight: weight
-    })
-  }
 
 
   show = dimmer => () => this.setState({ dimmer, open: true })
@@ -117,8 +161,6 @@ class ModalExampleDimmer extends Component {
 
   render() {
     const { open, dimmer } = this.state
-    const { exerciseName, reps, weight,
-      submittedName, submittedExerciseName, submittedReps, submittedWeight } = this.state
 
     return (
       <div>
@@ -136,7 +178,7 @@ class ModalExampleDimmer extends Component {
               <Form>
                 <Form.Group>
                   <Form.Input label='Workout Name' onChange={(evt1) => { console.log(evt1.target.value); }} placeholder='Upper Body Workout' />
-                  <Form.Select onChange={(e) => { console.log(e.target); }} label='Assign to' options={teams} placeholder='Team' />
+                  <Form.Select onChange={(e, { value }) => { console.log(value); }} label='Assign to' options={teams} placeholder='Team' />
                 </Form.Group>
               </Form>
 
@@ -162,7 +204,7 @@ class ModalExampleDimmer extends Component {
               icon='arrow right'
               labelPosition='right'
               content="Confirm"
-              onClick={this.confirm}
+              onClick={this.getStudentsBySport}
             />
           </Modal.Actions>
         </Modal>
@@ -192,4 +234,4 @@ class Line extends Component {
 }
 
 
-export default ModalExampleDimmer
+export default withFirebase(ModalExampleDimmer);
