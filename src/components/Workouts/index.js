@@ -71,8 +71,10 @@ const condition = authUser =>
       let workout = this.props.eventToDisplay
       let exercises = workout.exercises
       return (
-        <div>
-        <Divider horizontal>{workout.workoutName + "-"+ workout.sport+"-"+dateFormat(new Date(workout.start), " mmmm dS, yyyy")}</Divider>
+        <div style={{padding:'2vh', marginBottom:'2vh'}}>
+        <Divider horizontal>{dateFormat(new Date(workout.start), " mmmm dS, yyyy")}</Divider>
+        <Divider horizontal>{workout.workoutName + "-"+ workout.sport}</Divider>
+
         <Table>
           <Table.Header>
             <Table.Row>
@@ -86,6 +88,7 @@ const condition = authUser =>
             <RowItem exercises={ex} index={index}/>
           )}
         </Table>
+        
         </div>
       )
     }
