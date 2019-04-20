@@ -103,9 +103,6 @@ class Firebase {
 
   user_workout = (uid,ui) => this.db.ref(`users/${uid}/workouts/${ui}`);
 
-  message = uid => this.db.ref(`messages/${uid}`);
-
-  messages = () => this.db.ref('messages');
 }
 
 export default Firebase;
