@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict';\n\nvar process = require('./process');\n\ntry {\n  module.exports = setImmediate;\n} catch (ex) {\n  module.exports = process.nextTick;\n}","map":null,"metadata":{},"sourceType":"script"}

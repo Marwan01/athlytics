@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict';\n\nmodule.exports = function spin(spinstr, spun) {\n  return spinstr[spun % spinstr.length];\n};","map":null,"metadata":{},"sourceType":"script"}

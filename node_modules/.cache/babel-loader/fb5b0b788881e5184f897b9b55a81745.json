@@ -1,0 +1,1 @@
+{"ast":null,"code":"/*global module*/\nvar Buffer = require('buffer').Buffer;\n\nmodule.exports = function toString(obj) {\n  if (typeof obj === 'string') return obj;\n  if (typeof obj === 'number' || Buffer.isBuffer(obj)) return obj.toString();\n  return JSON.stringify(obj);\n};","map":null,"metadata":{},"sourceType":"script"}

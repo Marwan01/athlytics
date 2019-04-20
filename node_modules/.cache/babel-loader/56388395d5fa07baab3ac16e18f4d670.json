@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict';\n\nvar EventEmitter = require('events').EventEmitter;\n\nvar util = require('util');\n\nvar trackerId = 0;\n\nvar TrackerBase = module.exports = function (name) {\n  EventEmitter.call(this);\n  this.id = ++trackerId;\n  this.name = name;\n};\n\nutil.inherits(TrackerBase, EventEmitter);","map":null,"metadata":{},"sourceType":"script"}

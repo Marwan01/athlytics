@@ -1,0 +1,1 @@
+{"ast":null,"code":"module.exports = function (blocking) {\n  [process.stdout, process.stderr].forEach(function (stream) {\n    if (stream._handle && stream.isTTY && typeof stream._handle.setBlocking === 'function') {\n      stream._handle.setBlocking(blocking);\n    }\n  });\n};","map":null,"metadata":{},"sourceType":"script"}

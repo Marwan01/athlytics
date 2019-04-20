@@ -1,0 +1,1 @@
+{"ast":null,"code":"'use strict'; // this exists so we can replace it during testing\n\nmodule.exports = setInterval;","map":null,"metadata":{},"sourceType":"script"}
