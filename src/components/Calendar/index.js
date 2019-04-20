@@ -70,7 +70,6 @@ class Calendar extends React.Component {
 
     };
     this.update = this.update.bind(this);
-
     this.handleChange = this.handleChange.bind(this);
     this.addWorkout = this.addWorkout.bind(this);
     this.addField = this.addField.bind(this);
@@ -80,7 +79,6 @@ componentDidMount(){
   this.getEvents()
 }
   getEvents = () =>{
-    console.log("fetch events")
     let token = JSON.parse(localStorage.getItem('authUser'))
     this.props.firebase.user(token.uid)
     .once('value')
@@ -125,7 +123,6 @@ componentDidMount(){
       .on('value', snapshot => {
         const users = snapshot.val();
         let newArrayDataOfOjbect = Object.values(users)
-        let local_sport = "Women soccer"
         let uids_to_update = [token.uid]
         let keys = Object.keys(users)
 
