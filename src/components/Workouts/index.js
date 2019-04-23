@@ -68,16 +68,13 @@ const condition = authUser =>
 class TableExampleInverted extends Component {
   constructor(...props) {
     super(...props)
-    this.state = {
-      uids_to_update: []
-    }
     this.deleteWorkout = this.deleteWorkout.bind(this);
 
 
   }
 
-  deleteWorkout = (uid, ui) => {
-    this.props.firebase.user_workout(uid, ui).remove()
+  deleteWorkout = async (uid, ui) => {
+    await this.props.firebase.user_workout(uid, ui).remove()
     window.location.reload();
 
   }

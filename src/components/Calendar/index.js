@@ -78,6 +78,9 @@ class Calendar extends React.Component {
 componentDidMount(){
   this.getEvents()
 }
+componentWillUnmount(){
+  this.props.firebase.users().off();
+}
   getEvents = () =>{
     let token = JSON.parse(localStorage.getItem('authUser'))
     this.props.firebase.user(token.uid)
