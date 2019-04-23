@@ -78,6 +78,9 @@ class Calendar extends React.Component {
 componentDidMount(){
   this.getEvents()
 }
+componentWillUnmount(){
+  this.props.firebase.users().off();
+}
   getEvents = () =>{
     let token = JSON.parse(localStorage.getItem('authUser'))
     this.props.firebase.user(token.uid)
@@ -116,6 +119,18 @@ componentDidMount(){
     update()
   }
 
+  addWorkoutforAdmin = (uid,list_uids, update) => {
+    let workout = this.state.workout
+    workout["uids_list"]=list_uids
+    //DATE DOES NOT GET SEND
+    let ui = workout.workoutName + workout.start
+    this.props.firebase.user_workout(uid, ui).set(workout)
+    update()
+  }
+
+
+  
+
   getStudentsBySport = () => {
     let token = JSON.parse(localStorage.getItem('authUser'))
     this.props.firebase
@@ -123,7 +138,7 @@ componentDidMount(){
       .on('value', snapshot => {
         const users = snapshot.val();
         let newArrayDataOfOjbect = Object.values(users)
-        let uids_to_update = [token.uid]
+        let uids_to_update = []
         let keys = Object.keys(users)
 
         for (var i = 0; i < newArrayDataOfOjbect.length - 1; i++) {
@@ -132,6 +147,9 @@ componentDidMount(){
             uids_to_update.push(keys[i])
           }
         }
+
+        this.addWorkoutforAdmin(token.uid,uids_to_update,this.update)
+        
         uids_to_update.map(uid => {
           this.addWorkout(uid,this.update)
         })
