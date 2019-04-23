@@ -73,8 +73,10 @@ class TableExampleInverted extends Component {
 
   }
 
-  deleteWorkout = async (uid, ui) => {
+  deleteWorkout = async (uid, ui,uids_to_update) => {
     await this.props.firebase.user_workout(uid, ui).remove()
+    uids_to_update.map((local_uid)=> { this.props.firebase.user_workout(local_uid, ui).remove()
+    })
     window.location.reload();
 
   }
@@ -85,6 +87,7 @@ class TableExampleInverted extends Component {
     let workout = this.props.eventToDisplay
     let exercises = workout.exercises
     let w_uid = workout.workoutName + workout.start
+    let uids_to_update = workout.uids_list
     let user = this.props.user
     return (
       <div style={{ padding: '2vh', marginBottom: '2vh' }}>
@@ -97,7 +100,7 @@ class TableExampleInverted extends Component {
               <Table.HeaderCell width={5}>Exercise</Table.HeaderCell>
               <Table.HeaderCell width={5}>Repetition</Table.HeaderCell>
               <Table.HeaderCell width={5}>Weight (lb)</Table.HeaderCell>
-              <Table.HeaderCell><Button icon='trash' color='red' onClick={ (e) => {this.deleteWorkout(user.uid, w_uid)} }/></Table.HeaderCell>
+              <Table.HeaderCell><Button icon='trash' color='red' onClick={ (e) => {this.deleteWorkout(user.uid, w_uid,uids_to_update)} }/></Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           {exercises.map((ex, index) =>
