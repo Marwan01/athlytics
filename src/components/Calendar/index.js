@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import { compose } from 'recompose';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
-import { withAuthorization, withEmailVerification,AuthUserContext } from '../Session';
+import { withAuthorization, withEmailVerification, AuthUserContext } from '../Session';
 import BigCalendar from 'react-big-calendar'
 import dateFormat from 'dateformat'
 import moment from 'moment'
@@ -53,14 +53,14 @@ class Calendar extends React.Component {
     this.state = {
       open: false,
 
-      events:[],
+      events: [],
       fields: [0],
 
       workout: {
         workoutName: '',
         sport: '',
-        start : new Date(),
-        end : new Date(),
+        start: new Date(),
+        end: new Date(),
         exercises: [
           {
             exerciseName: '', reps: '', weight: '',
@@ -69,46 +69,49 @@ class Calendar extends React.Component {
       }
 
     };
+
+    this.eventStyleGetter = this.eventStyleGetter.bind(this);
+
     this.update = this.update.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.addWorkout = this.addWorkout.bind(this);
     this.addField = this.addField.bind(this);
     this.getEvents = this.getEvents.bind(this);
   }
-componentDidMount(){
-  this.getEvents()
-}
-componentWillUnmount(){
-  this.props.firebase.users().off();
-}
-  getEvents = () =>{
+  componentDidMount() {
+    this.getEvents()
+  }
+  componentWillUnmount() {
+    this.props.firebase.users().off();
+  }
+  getEvents = () => {
     let token = JSON.parse(localStorage.getItem('authUser'))
     this.props.firebase.user(token.uid)
-    .once('value')
-    .then(snapshot => {
-      const dbUser = snapshot.val();
-      let w = dbUser.workouts
-      if (w){
-        var newArrayDataOfOjbect = Object.values(w)
-        newArrayDataOfOjbect.forEach(function(element) {
-          element.workoutName = element.workoutName+ "-"+element.sport
-          element.end = new Date(element.end)
-          element.start = new Date(element.start)
-          
-        });
-        this.setState({events: newArrayDataOfOjbect})
-        console.log(this.state.events)
-      }
-    });
+      .once('value')
+      .then(snapshot => {
+        const dbUser = snapshot.val();
+        let w = dbUser.workouts
+        if (w) {
+          var newArrayDataOfOjbect = Object.values(w)
+          newArrayDataOfOjbect.forEach(function (element) {
+            element.workoutName = element.workoutName + "-" + element.sport
+            element.end = new Date(element.end)
+            element.start = new Date(element.start)
+
+          });
+          this.setState({ events: newArrayDataOfOjbect })
+          console.log(this.state.events)
+        }
+      });
 
   }
 
   handleSelect = ({ start, end }) => {
     let workout_copy = this.state.workout
-    workout_copy['start']= start.toString()
-    workout_copy['end']= end.toString()
-    this.setState({open:true})
-    this.setState({workout:workout_copy})
+    workout_copy['start'] = start.toString()
+    workout_copy['end'] = end.toString()
+    this.setState({ open: true })
+    this.setState({ workout: workout_copy })
   }
 
   addWorkout = (uid, update) => {
@@ -119,9 +122,9 @@ componentWillUnmount(){
     update()
   }
 
-  addWorkoutforAdmin = (uid,list_uids, update) => {
+  addWorkoutforAdmin = (uid, list_uids, update) => {
     let workout = this.state.workout
-    workout["uids_list"]=list_uids
+    workout["uids_list"] = list_uids
     //DATE DOES NOT GET SEND
     let ui = workout.workoutName + workout.start
     this.props.firebase.user_workout(uid, ui).set(workout)
@@ -129,7 +132,7 @@ componentWillUnmount(){
   }
 
 
-  
+
 
   getStudentsBySport = () => {
     let token = JSON.parse(localStorage.getItem('authUser'))
@@ -148,17 +151,17 @@ componentWillUnmount(){
           }
         }
 
-        this.addWorkoutforAdmin(token.uid,uids_to_update,this.update)
-        
+        this.addWorkoutforAdmin(token.uid, uids_to_update, this.update)
+
         uids_to_update.map(uid => {
-          this.addWorkout(uid,this.update)
+          this.addWorkout(uid, this.update)
         })
       })
 
-      this.setState({ open: false })
+    this.setState({ open: false })
   }
 
-  update = ()=> {
+  update = () => {
     this.props.history.push(ROUTES.WORKOUTS)
   }
 
@@ -192,92 +195,212 @@ componentWillUnmount(){
   show = dimmer => () => this.setState({ dimmer, open: true })
   close = () => this.setState({ open: !this.state.open })
 
+  eventStyleGetter = (event, start, end, isSelected) => {
+    let backgroundColor
+    let sport = event.sport.toString()
+    console.log(sport)
+    switch (sport) {
+      case "Women soccer":
+        backgroundColor = "#ad2748";
+        break;
+      case "Men soccer":
+        backgroundColor = "#9cbf65";
+        break;
+      case "Softball":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men baseball":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women tennis":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men tennis":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women basketball":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men basketball":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women diving":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men diving":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women cross country":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men cross country":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women track and field":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men track and field":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women golf":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men golf":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women ice hockey":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men ice hockey":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Field Hockey":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women lacrosse":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men lacrosse":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women rugby":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men rugby":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women swimming":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men swimming":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Synchronized swimming":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women volleyball":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men volleyball":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women water polo":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men water polo":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Women wrestling":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Men wrestling":
+        backgroundColor = "#hexcolor";
+        break;
+      case "Gymnastics":
+        backgroundColor = "#hexcolor";
+        break;
+      default:
+        backgroundColor = "#3174ad"
+
+    }
+
+    var style = {
+      backgroundColor: backgroundColor,
+    }
+
+    return {
+      style: style
+    };
+  }
 
   render() {
 
     const localizer = BigCalendar.momentLocalizer(moment) // or globalizeLocalizer
     return (
-          <AuthUserContext.Consumer>
-    {authUser => (
-      <div style={{height:'750px', padding:'5vh'}}>
-        <Header as="h2">{authUser.username}'s Calendar</Header>
-        {!authUser.roles.includes(ROLES.ADMIN) &&
-          <Header as="h2">Sport: {authUser.sport}</Header>
-        }
-        
-      <BigCalendar
-          selectable
-          localizer={localizer}
-          startAccessor="start"
-          titleAccessor="workoutName"
-          endAccessor="end"
-          timeslots={8}
-          step={15}
-          events={this.state.events}
-          views={['month', 'week', 'day']}
-          defaultView={BigCalendar.Views.WEEK}
-          scrollToTime={new Date(1970, 1, 1, 6)}
-          defaultDate={new Date(2019, 3, 12)}
-          onSelectEvent={event => this.props.history.push(ROUTES.WORKOUTS)}
-          onSelectSlot={this.handleSelect}
-        />
-              <div>
-        <Modal open={this.state.open} onClose={this.close}>
-          <Modal.Header>
-            <div className='image'>
-              
-              <h1><Icon name='trophy' /> Assign a New Workout On: {dateFormat(new Date(this.state.workout.start), "dddd, mmmm dS, yyyy")}
-              </h1>
-              <h2>From: {dateFormat(new Date(this.state.workout.start), "h:MM TT")} Until: {dateFormat(new Date(this.state.workout.end), "h:MM TT")}</h2>
-            </div>
-          </Modal.Header>
-          <Modal.Content image>
-            <Image wrapped size='small' src={require('./../../img/exercise.png')} />
-            <Modal.Description image>
-              <Form>
-                <Form.Group>
-                  <Form.Input label='Workout Name' onChange={(e) => {    
-                    let workout_copy = this.state.workout
-    workout_copy['workoutName']= e.target.value
-    this.setState({workout:workout_copy})}}  placeholder='Upper Body Workout' />
-                  <Form.Select onChange={(e, { value }) => {    
-                    let workout_copy = this.state.workout
-    workout_copy['sport']= value
-    this.setState({workout:workout_copy})}} label='Assign to' options={teams} placeholder='Team' />
-                </Form.Group>
-              </Form>
+      <AuthUserContext.Consumer>
+        {authUser => (
+          <div style={{ height: '750px', padding: '5vh' }}>
+            <Header as="h2">{authUser.username}'s Calendar</Header>
+            {!authUser.roles.includes(ROLES.ADMIN) &&
+              <Header as="h2">Sport: {authUser.sport}</Header>
+            }
 
-            </Modal.Description>
-          </Modal.Content>
-          <Divider horizontal>Exercises</Divider>
-
-          {this.state.fields.map((i) =>
-            <Line handleChange={this.handleChange} state={this.state} index={i}> </Line>
-          )
-          }
-
-          <Modal.Content image>
-            <Button icon onClick={this.addField}><Icon name='plus' /></Button>
-          </Modal.Content>
-
-          <Modal.Actions>
-            <Button color='black' onClick={this.close}>
-              Cancel
-            </Button>
-            <Button
-              positive
-              icon='arrow right'
-              labelPosition='right'
-              content="Confirm"
-              onClick={this.getStudentsBySport}
+            <BigCalendar
+              selectable
+              localizer={localizer}
+              startAccessor="start"
+              titleAccessor="workoutName"
+              endAccessor="end"
+              timeslots={8}
+              step={15}
+              events={this.state.events}
+              views={['month', 'week', 'day']}
+              defaultView={BigCalendar.Views.WEEK}
+              scrollToTime={new Date(1970, 1, 1, 6)}
+              defaultDate={new Date(2019, 3, 12)}
+              onSelectEvent={event => this.props.history.push(ROUTES.WORKOUTS)}
+              onSelectSlot={this.handleSelect}
+              eventPropGetter={(this.eventStyleGetter)}
             />
-          </Modal.Actions>
-        </Modal>
-      </div>
-      </div>)}
+            <div>
+              <Modal open={this.state.open} onClose={this.close}>
+                <Modal.Header>
+                  <div className='image'>
 
-  </AuthUserContext.Consumer>
-      
+                    <h1><Icon name='trophy' /> Assign a New Workout On: {dateFormat(new Date(this.state.workout.start), "dddd, mmmm dS, yyyy")}
+                    </h1>
+                    <h2>From: {dateFormat(new Date(this.state.workout.start), "h:MM TT")} Until: {dateFormat(new Date(this.state.workout.end), "h:MM TT")}</h2>
+                  </div>
+                </Modal.Header>
+                <Modal.Content image>
+                  <Image wrapped size='small' src={require('./../../img/exercise.png')} />
+                  <Modal.Description image>
+                    <Form>
+                      <Form.Group>
+                        <Form.Input label='Workout Name' onChange={(e) => {
+                          let workout_copy = this.state.workout
+                          workout_copy['workoutName'] = e.target.value
+                          this.setState({ workout: workout_copy })
+                        }} placeholder='Upper Body Workout' />
+                        <Form.Select onChange={(e, { value }) => {
+                          let workout_copy = this.state.workout
+                          workout_copy['sport'] = value
+                          this.setState({ workout: workout_copy })
+                        }} label='Assign to' options={teams} placeholder='Team' />
+                      </Form.Group>
+                    </Form>
+
+                  </Modal.Description>
+                </Modal.Content>
+                <Divider horizontal>Exercises</Divider>
+
+                {this.state.fields.map((i) =>
+                  <Line handleChange={this.handleChange} state={this.state} index={i}> </Line>
+                )
+                }
+
+                <Modal.Content image>
+                  <Button icon onClick={this.addField}><Icon name='plus' /></Button>
+                </Modal.Content>
+
+                <Modal.Actions>
+                  <Button color='black' onClick={this.close}>
+                    Cancel
+            </Button>
+                  <Button
+                    positive
+                    icon='arrow right'
+                    labelPosition='right'
+                    content="Confirm"
+                    onClick={this.getStudentsBySport}
+                  />
+                </Modal.Actions>
+              </Modal>
+            </div>
+          </div>)}
+
+      </AuthUserContext.Consumer>
+
     )
   }
 }
