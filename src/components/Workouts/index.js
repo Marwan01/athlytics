@@ -75,8 +75,10 @@ class TableExampleInverted extends Component {
 
   deleteWorkout = async (uid, ui,uids_to_update) => {
     await this.props.firebase.user_workout(uid, ui).remove()
+    if(uids_to_update){
     uids_to_update.map((local_uid)=> { this.props.firebase.user_workout(local_uid, ui).remove()
     })
+  }
     window.location.reload();
 
   }
