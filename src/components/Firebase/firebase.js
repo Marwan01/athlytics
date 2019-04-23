@@ -2,7 +2,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/database';
 
-
+const redirectUrl = process.env.NODE_ENV == "production" ? "https://athlytics5g.firebaseapp.com" : "http://localhost:3000"
 const config = {
 apiKey: "AIzaSyCGmvE7wqlcK4Qt36tFtAlb_WHFB_3S_nw",
     authDomain: "athlytics5g.firebaseapp.com",
@@ -56,7 +56,7 @@ class Firebase {
 
   doSendEmailVerification = () =>
     this.auth.currentUser.sendEmailVerification({
-      url: "http://localhost:3000",
+      url: redirectUrl
     });
 
     doPasswordUpdate = password =>
