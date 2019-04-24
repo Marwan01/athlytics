@@ -178,7 +178,7 @@ else{
         )}
         <Form onSubmit={this.onSubmit}>
           <Form.Field>
-            <label>Username</label>
+            <label>Full Name</label>
             <input
               name="username"
               value={username}
