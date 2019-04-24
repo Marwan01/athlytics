@@ -86,6 +86,7 @@ class TableExampleInverted extends Component {
 
 
   render() {
+    let token = JSON.parse(localStorage.getItem('authUser'))
     let workout = this.props.eventToDisplay
     let exercises = workout.exercises
     let w_uid = workout.workoutName + workout.start
@@ -102,7 +103,9 @@ class TableExampleInverted extends Component {
               <Table.HeaderCell width={5}>Exercise</Table.HeaderCell>
               <Table.HeaderCell width={5}>Repetition</Table.HeaderCell>
               <Table.HeaderCell width={5}>Weight (lb)</Table.HeaderCell>
-              <Table.HeaderCell><Button icon='trash' color='red' onClick={ (e) => {this.deleteWorkout(user.uid, w_uid,uids_to_update)} }/></Table.HeaderCell>
+              { token.sport === ''  ?  (
+          <Table.HeaderCell><Button icon='trash' color='red' onClick={ (e) => {this.deleteWorkout(user.uid, w_uid,uids_to_update)} } /></Table.HeaderCell>
+          ) : null}
             </Table.Row>
           </Table.Header>
           {exercises.map((ex, index) =>
