@@ -1,5 +1,9 @@
 import { compose } from 'recompose';
 import PropTypes from 'prop-types'
+import * as ROUTES from '../../constants/routes';
+import { Link } from 'react-router-dom';
+
+
 import React, { Component } from 'react'
 import {
   Button,
@@ -28,7 +32,6 @@ const getWidth = () => {
   return isSSR ? Responsive.onlyTablet.minWidth : window.innerWidth
 }
 
-
 const HomepageHeading = ({ mobile }) => (
   <Container text>
     <Header
@@ -44,6 +47,16 @@ const HomepageHeading = ({ mobile }) => (
     />
     <Header
       as='h2'
+      content='By Pentagummies'
+      inverted
+      style={{
+        fontSize: mobile ? '1.5em' : '1.7em',
+        fontWeight: 'normal',
+        marginTop: mobile ? '0.5em' : '1.5em',
+      }}
+    />
+    <Header
+      as='h4'
       content='Lindenwood University'
       inverted
       style={{
@@ -52,11 +65,12 @@ const HomepageHeading = ({ mobile }) => (
         marginTop: mobile ? '0.5em' : '1.5em',
       }}
     />
-    <Button primary size='huge'>
+    <p>Click Get Started to sign up, or sign in you have an existing account.</p>
+    <Link to={ROUTES.SIGN_UP}><Button primary size='huge'>
       Get Started
       <Icon name='right arrow' />
     </Button>
-    
+    </Link>
   </Container>
 )
 
@@ -83,18 +97,9 @@ class DesktopContainer extends Component {
             textAlign='center'
             style={{ minHeight: 700, padding: '1em 0em' }}
             vertical
+            color = 'grey'
           >
-           
-            <Menu
-              fixed={fixed ? 'top' : null}
-              inverted={!fixed}
-              pointing={!fixed}
-              secondary={!fixed}
-              size='large'
-            >
-              
-            </Menu>
-            <HomepageHeading />
+          <HomepageHeading />
           </Segment>
         
 
