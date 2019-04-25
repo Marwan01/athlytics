@@ -1,4 +1,3 @@
-import { compose } from 'recompose';
 import PropTypes from 'prop-types'
 import * as ROUTES from '../../constants/routes';
 import { Link } from 'react-router-dom';
@@ -14,17 +13,10 @@ import {
   Icon,
   Image,
   List,
-  Menu,
   Responsive,
   Segment,
   Sidebar,
-  Visibility,
 } from 'semantic-ui-react'
-import logo from './logoNobackground.png';
-
-
-import { withAuthorization, withEmailVerification } from '../Session';
-import { withFirebase } from '../Firebase';
 
 const getWidth = () => {
   const isSSR = typeof window === 'undefined'
