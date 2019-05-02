@@ -17,7 +17,7 @@ import {
   Segment,
   Sidebar,
 } from 'semantic-ui-react'
-import Background from '../Home/splash2.png'
+import Background from '../Home/splash.png'
 const getWidth = () => {
   const isSSR = typeof window === 'undefined'
 
