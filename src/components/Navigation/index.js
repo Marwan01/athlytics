@@ -5,7 +5,6 @@ import { AuthUserContext } from '../Session';
 import SignOutButton from '../SignOut';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
-
 import { Container, Menu, Image } from 'semantic-ui-react';
 
 const Navigation = () => (
@@ -23,7 +22,9 @@ const Navigation = () => (
 const NavigationAuth = ({ authUser }) => (
   <Menu pointing secondary fluid size='huge'>
     <Container>
-      <Menu.Item icon='home' name="home" as={Link} to={ROUTES.HOME} />
+      <Menu.Item  as={Link} to={ROUTES.HOME} >
+      <img src='https://cdn.swimswam.com/wp-content/uploads/2014/11/Lindenwood-logo.jpg'/>
+      </Menu.Item>
       <Menu.Item icon='settings' name="Account" as={Link} to={ROUTES.ACCOUNT} />
       {authUser.roles.includes(ROLES.ADMIN) && (
         <Menu.Item icon='user secret' name="Admin" as={Link} to={ROUTES.ADMIN} />
@@ -40,8 +41,9 @@ const NavigationAuth = ({ authUser }) => (
 const NavigationNonAuth = () => (
   <Menu pointing secondary fluid size='huge'>
     <Container>
-      <Menu.Item icon='home' name="home" as={Link} to={ROUTES.HOME} />
-      <Menu.Menu position="right">
+    <Menu.Item  as={Link} to={ROUTES.HOME} >
+    <img src='https://cdn.swimswam.com/wp-content/uploads/2014/11/Lindenwood-logo.jpg'/>
+      </Menu.Item>      <Menu.Menu position="right">
         <Menu.Item icon='sign in' name="signin" as={Link} to={ROUTES.SIGN_IN} />
       </Menu.Menu>
     </Container>
