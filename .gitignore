@@ -17,3 +17,6 @@ build
 .env
 npm-debug.log
 .DS_Store
+
+# firebase config
+src/components/Firebase/config.js
