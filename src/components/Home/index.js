@@ -17,7 +17,7 @@ import {
   Segment,
   Sidebar,
 } from 'semantic-ui-react'
-
+import Background from '../Home/15.png'
 const getWidth = () => {
   const isSSR = typeof window === 'undefined'
 
@@ -28,8 +28,8 @@ const HomepageHeading = ({ mobile }) => (
   <Container text>
     <Header
       as='h1'
+      color = 'black'
       content='Athlytics'
-      inverted
       style={{
         fontSize: mobile ? '2em' : '4em',
         fontWeight: 'normal',
@@ -38,18 +38,16 @@ const HomepageHeading = ({ mobile }) => (
       }}
     />
     
-    
     <Header
       as='h4'
+      color = 'black'
       content='Lindenwood University'
-      inverted
       style={{
         fontSize: mobile ? '1.5em' : '1.7em',
         fontWeight: 'normal',
         marginTop: mobile ? '0.5em' : '1.5em',
       }}
     />
-    <p>Click Get Started to sign up, or sign in if you have an existing account.</p>
     <Link to={ROUTES.SIGN_UP}><Button primary size='huge'>
       Get Started
       <Icon name='right arrow' />
@@ -75,14 +73,14 @@ class DesktopContainer extends Component {
     return (
       
       <Responsive getWidth={getWidth} minWidth={Responsive.onlyTablet.minWidth}>
-         <Image src={require('./ll.jpg')} rounded size='medium'/>
+         
           <Segment
-            inverted
-            textAlign='center'
-            style={{ minHeight: 700, padding: '1em 0em' }}
-            vertical
-            color = 'teal'
             
+          
+            textAlign='center'
+            style={{ minHeight: 700, padding: '1em 0em',backgroundImage: `url(${Background})`
+          }}
+            vertical
           >
           <HomepageHeading />
           </Segment>
@@ -132,7 +130,12 @@ const HomepageLayout = () => (
             <p style={{ fontSize: '1.33em' }}>
             Athlytics provides a well detailed calendar ready and easy to use.
             </p>
-            
+            <Header as='h3' style={{ fontSize: '2em' }}>
+              How it works:
+            </Header>
+            <p style={{ fontSize: '1.33em' }}>
+            This program allows students and coaches to register as coaches or students. The students will have to choose which sports team they belong to when registering ie. Men’s Soccer, Women’s Track and Field. Athlytics is used by the student athletes to view their team specific workout(s) for the day. Athlytics also includes the coaches’ specific functionality like being able to create workouts by creating multiple lifts, assigning reps, assigning weights, scheduling the workouts by day or even by hour, assigning the workouts to the teams, deleting the workouts, and deleting student athletes accounts once the season is over.</p>
+
           </Grid.Column>
           <Grid.Column floated='right' width={6}>
           <Image src={require('./logoNobackground.png')} rounded size='medium'/>
@@ -142,7 +145,6 @@ const HomepageLayout = () => (
       </Grid>
     </Segment>
    
-    
     <Segment 
     inverted 
     vertical 
@@ -163,6 +165,25 @@ const HomepageLayout = () => (
          
       </Container>
     </Segment>
+
+    <Segment inverted style={{ margin: '5em 0em 0em', padding: '5em 0em' }} vertical>
+          <Container textAlign='center'>
+            <Image src='https://upload.wikimedia.org/wikipedia/en/thumb/7/74/Lindenwood_Lions_logo.svg/1200px-Lindenwood_Lions_logo.svg.png' centered size='mini' />
+            <List horizontal inverted divided link size='small'>
+              <List.Item >
+                Copyright © Lindenwood 2019
+              </List.Item>
+              <List.Item as='a' href='#'>
+                Contract
+              </List.Item>
+              <List.Item as='a' href='#'>
+                Full Documentation
+              </List.Item>
+            </List>
+          </Container>
+        </Segment>
+
+    
   </ResponsiveContainer>
 )
 export default HomepageLayout
