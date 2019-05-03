@@ -51,7 +51,7 @@ class PasswordChangeForm extends Component {
         )}
         <Form.Group widths="equal">
           <Form.Field>
-            <label>Old Password</label>
+            <label>New Password</label>
             <input
               name="passwordOne"
               value={passwordOne}
@@ -61,7 +61,7 @@ class PasswordChangeForm extends Component {
             />
           </Form.Field>
           <Form.Field>
-            <label>New Password</label>
+            <label>Confirm Password</label>
             <input
               name="passwordTwo"
               value={passwordTwo}
