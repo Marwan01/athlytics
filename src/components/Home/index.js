@@ -176,7 +176,7 @@ const HomepageLayout = () => (
               <List.Item as='a' href={require('./contract.pdf')}>
                 Contract
               </List.Item>
-              <List.Item as='a' href={require('./documentation.docx')}>
+              <List.Item as='a' href={require('./documentation.pdf')}>
                 Full Documentation
               </List.Item>
             </List>
