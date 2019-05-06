@@ -173,10 +173,10 @@ const HomepageLayout = () => (
               <List.Item >
                 Copyright © Lindenwood 2019
               </List.Item>
-              <List.Item as='a' href='#'>
+              <List.Item as='a' href={require('./contract.pdf')}>
                 Contract
               </List.Item>
-              <List.Item as='a' href='#'>
+              <List.Item as='a' href={require('./documentation.docx')}>
                 Full Documentation
               </List.Item>
             </List>
