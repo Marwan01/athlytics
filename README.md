@@ -14,8 +14,6 @@ Athlytics Is a role-based web app program made for a  reliable method for coache
 
 ![Screenshot](/src/img/bc.png)
 
-To get started: 
-
 
 ### Tools the team used
 
@@ -32,7 +30,7 @@ To get started:
 * We used firebase hosting to upload our production build to the cloud and have it accessible to all the users through the web
 * Created a deployment routine where we just need to execute a command to quickly redeploy our project to production
 
-### Firenbase Database Advantages
+### Firebase Database Advantages
 
 * Security
 * Passwords are naturally Encrypted 
